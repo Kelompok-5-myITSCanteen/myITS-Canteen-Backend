@@ -10,6 +10,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Illuminate\Http\JsonResponse;
 
 class RegisteredUserController extends Controller
 {
@@ -18,12 +19,18 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): Response
+    public function store(Request $request): JsonResponse
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => ['required', Rules\Password::defaults()],
+        ], [
+            'email.unique' => 'Email sudah terdaftar',
+            'email.lowercase' => 'Email harus dalam huruf kecil',
+            'password.required' => 'Password harus diisi',
+            'password.min' => 'Password minimal 8 karakter',
+            'password.confirmed' => 'Konfirmasi password tidak cocok',
         ]);
 
         $user = User::create([
@@ -32,10 +39,12 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->string('password')),
         ]);
 
-        event(new Registered($user));
-
-        Auth::login($user);
-
-        return response()->noContent();
+        return response()->json([
+            'message' => 'Berhasil mendaftar',
+            'data' => [
+                'token' => $user->createToken('auth-token')->plainTextToken,
+                'user' => $user
+            ]
+        ]);
     }
 }
