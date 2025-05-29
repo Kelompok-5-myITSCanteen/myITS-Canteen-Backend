@@ -37,7 +37,7 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->string('password')),
-        ]);
+        ])->assignRole('user');
 
         return response()->json([
             'message' => 'Berhasil mendaftar',
