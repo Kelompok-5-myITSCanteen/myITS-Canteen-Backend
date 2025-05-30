@@ -26,7 +26,12 @@ class AuthenticatedSessionController extends Controller
             'message' => 'Berhasil masuk',
             'data' => [
                 'token' => $user->createToken('auth-token')->plainTextToken,
-                'user' => $user
+                'user' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'role' => $user->roles->pluck('name')->first(),
+                ]
             ]
         ], 200);
     }
