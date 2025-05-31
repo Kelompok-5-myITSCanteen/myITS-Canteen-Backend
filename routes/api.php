@@ -25,3 +25,5 @@ Route::middleware('auth:sanctum', 'role:user')->group(function () {
         return response()->json(['message' => 'Welcome User!']);
     });
 });
+
+// Route::get('/canteens')
