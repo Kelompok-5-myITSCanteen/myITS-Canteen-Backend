@@ -13,7 +13,20 @@ class CanteenController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $canteens = canteen::all();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => "Kantin berhasil ditemukan",
+                'data' => $canteens
+            ], 200);
+        } catch (\Exception $e){
+            return response()->json([
+                'status' => 'failed',
+                'message' => "Kantin gagal ditemukan: " . $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**
