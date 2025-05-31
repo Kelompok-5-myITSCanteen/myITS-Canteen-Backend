@@ -14,14 +14,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Role::create(['name' => 'admin']);
-        Role::create(['name' => 'user']);
+        Role::firstOrCreate(['name' => 'admin']);
+        Role::firstOrCreate(['name' => 'customer']);
+        Role::firstOrCreate(['name' => 'vendor']);
 
         User::factory()->create([
             'name' => 'Kevin Andreas',
             'email' => 'kevin.andreascn@gmail.com',
             'password' => bcrypt('password'),
-        ])->assignRole('user');
+        ])->assignRole('customer');
+
+        User::factory()->create([
+            'name' => 'Nathan Valen',
+            'email' => 'nathanvalen@gmail.com',
+            'password' => bcrypt('password'),
+        ])->assignRole('vendor');
 
         User::factory()->create([
             'name' => 'Admin La Koste',
