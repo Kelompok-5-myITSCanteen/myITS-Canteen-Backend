@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Canteen;
 use Spatie\Permission\Models\Role;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -38,8 +39,13 @@ class DatabaseSeeder extends Seeder
 
         User::factory(10)->create();
 
+        // Canteen::factory(10)->create();
+        // $this->call([
+        //     CanteenSeeder::class,
+        // ]);
+
         $this->call([
-            CanteenSeeder::class,
+            DummySeeder::class,
         ]);
     }
 }

@@ -4,15 +4,15 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Canteen;
+use App\Models\Dummy;
 
-class CanteenSeeder extends Seeder
+class DummySeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Canteen::factory()->count(10)->create();
+        Dummy::factory()->count(10)->create();
     }
 }
