@@ -13,7 +13,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware('auth:sanctum', 'role:admin')->group(function () {
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
-
     Route::get('/admin', function (Request $request) {
         return response()->json(['message' => 'Welcome Admin!']);
     });
