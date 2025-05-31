@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\canteen;
+use App\Models\Canteen;
 use App\Http\Requests\StorecanteenRequest;
 use App\Http\Requests\UpdatecanteenRequest;
 
@@ -50,7 +50,18 @@ class CanteenController extends Controller
      */
     public function show(canteen $canteen)
     {
-        //
+        try {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Kantin berhasil ditemukan',
+                'data' => $canteen
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'Kantin gagal ditemukan: ' . $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**
