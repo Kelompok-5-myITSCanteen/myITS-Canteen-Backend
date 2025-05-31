@@ -30,5 +30,9 @@ class DatabaseSeeder extends Seeder
         ])->assignRole('admin');
 
         User::factory(10)->create();
+
+        $this->call([
+            CanteenSeeder::class
+        ]);
     }
 }
