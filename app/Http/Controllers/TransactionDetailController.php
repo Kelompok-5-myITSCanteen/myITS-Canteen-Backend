@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\transaction_detail;
-use App\Http\Requests\Storetransaction_detailRequest;
-use App\Http\Requests\Updatetransaction_detailRequest;
+use App\Models\Transaction_detail;
+use App\Http\Requests\StoreTransaction_detailRequest;
+use App\Http\Requests\UpdateTransaction_detailRequest;
 
-class TransactionDetailController extends Controller
+class TransactionDetailController
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class TransactionDetailController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Storetransaction_detailRequest $request)
+    public function store(StoreTransaction_detailRequest $request)
     {
         //
     }
@@ -35,7 +35,7 @@ class TransactionDetailController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(transaction_detail $transaction_detail)
+    public function show(Transaction_detail $transaction_detail)
     {
         //
     }
@@ -43,7 +43,7 @@ class TransactionDetailController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(transaction_detail $transaction_detail)
+    public function edit(Transaction_detail $transaction_detail)
     {
         //
     }
@@ -51,7 +51,7 @@ class TransactionDetailController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Updatetransaction_detailRequest $request, transaction_detail $transaction_detail)
+    public function update(UpdateTransaction_detailRequest $request, Transaction_detail $transaction_detail)
     {
         //
     }
@@ -59,7 +59,7 @@ class TransactionDetailController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(transaction_detail $transaction_detail)
+    public function destroy(Transaction_detail $transaction_detail)
     {
         //
     }

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\reservation;
-use App\Http\Requests\StorereservationRequest;
-use App\Http\Requests\UpdatereservationRequest;
+use App\Models\Reservation;
+use App\Http\Requests\StoreReservationRequest;
+use App\Http\Requests\UpdateReservationRequest;
 
-class ReservationController extends Controller
+class ReservationController
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class ReservationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorereservationRequest $request)
+    public function store(StoreReservationRequest $request)
     {
         //
     }
@@ -35,7 +35,7 @@ class ReservationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(reservation $reservation)
+    public function show(Reservation $reservation)
     {
         //
     }
@@ -43,7 +43,7 @@ class ReservationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(reservation $reservation)
+    public function edit(Reservation $reservation)
     {
         //
     }
@@ -51,7 +51,7 @@ class ReservationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatereservationRequest $request, reservation $reservation)
+    public function update(UpdateReservationRequest $request, Reservation $reservation)
     {
         //
     }
@@ -59,7 +59,7 @@ class ReservationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(reservation $reservation)
+    public function destroy(Reservation $reservation)
     {
         //
     }

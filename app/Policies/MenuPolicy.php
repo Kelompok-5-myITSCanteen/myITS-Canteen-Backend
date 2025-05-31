@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
+use App\Models\Menu;
 use App\Models\User;
-use App\Models\menu;
 use Illuminate\Auth\Access\Response;
 
 class MenuPolicy
@@ -19,7 +19,7 @@ class MenuPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, menu $menu): bool
+    public function view(User $user, Menu $menu): bool
     {
         return false;
     }
@@ -35,7 +35,7 @@ class MenuPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, menu $menu): bool
+    public function update(User $user, Menu $menu): bool
     {
         return false;
     }
@@ -43,7 +43,7 @@ class MenuPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, menu $menu): bool
+    public function delete(User $user, Menu $menu): bool
     {
         return false;
     }
@@ -51,7 +51,7 @@ class MenuPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, menu $menu): bool
+    public function restore(User $user, Menu $menu): bool
     {
         return false;
     }
@@ -59,7 +59,7 @@ class MenuPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, menu $menu): bool
+    public function forceDelete(User $user, Menu $menu): bool
     {
         return false;
     }

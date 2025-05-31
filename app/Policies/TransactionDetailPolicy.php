@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
+use App\Models\Transaction_detail;
 use App\Models\User;
-use App\Models\transaction_detail;
 use Illuminate\Auth\Access\Response;
 
 class TransactionDetailPolicy
@@ -19,7 +19,7 @@ class TransactionDetailPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, transaction_detail $transactionDetail): bool
+    public function view(User $user, Transaction_detail $transactionDetail): bool
     {
         return false;
     }
@@ -35,7 +35,7 @@ class TransactionDetailPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, transaction_detail $transactionDetail): bool
+    public function update(User $user, Transaction_detail $transactionDetail): bool
     {
         return false;
     }
@@ -43,7 +43,7 @@ class TransactionDetailPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, transaction_detail $transactionDetail): bool
+    public function delete(User $user, Transaction_detail $transactionDetail): bool
     {
         return false;
     }
@@ -51,7 +51,7 @@ class TransactionDetailPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, transaction_detail $transactionDetail): bool
+    public function restore(User $user, Transaction_detail $transactionDetail): bool
     {
         return false;
     }
@@ -59,7 +59,7 @@ class TransactionDetailPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, transaction_detail $transactionDetail): bool
+    public function forceDelete(User $user, Transaction_detail $transactionDetail): bool
     {
         return false;
     }

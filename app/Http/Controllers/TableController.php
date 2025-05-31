@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\table;
-use App\Http\Requests\StoretableRequest;
-use App\Http\Requests\UpdatetableRequest;
+use App\Models\Table;
+use App\Http\Requests\StoreTableRequest;
+use App\Http\Requests\UpdateTableRequest;
 
-class TableController extends Controller
+class TableController
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class TableController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoretableRequest $request)
+    public function store(StoreTableRequest $request)
     {
         //
     }
@@ -35,7 +35,7 @@ class TableController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(table $table)
+    public function show(Table $table)
     {
         //
     }
@@ -43,7 +43,7 @@ class TableController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(table $table)
+    public function edit(Table $table)
     {
         //
     }
@@ -51,7 +51,7 @@ class TableController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatetableRequest $request, table $table)
+    public function update(UpdateTableRequest $request, Table $table)
     {
         //
     }
@@ -59,7 +59,7 @@ class TableController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(table $table)
+    public function destroy(Table $table)
     {
         //
     }

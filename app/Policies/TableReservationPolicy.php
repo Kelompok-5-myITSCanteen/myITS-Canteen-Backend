@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
+use App\Models\Table_reservation;
 use App\Models\User;
-use App\Models\table_reservation;
 use Illuminate\Auth\Access\Response;
 
 class TableReservationPolicy
@@ -19,7 +19,7 @@ class TableReservationPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, table_reservation $tableReservation): bool
+    public function view(User $user, Table_reservation $tableReservation): bool
     {
         return false;
     }
@@ -35,7 +35,7 @@ class TableReservationPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, table_reservation $tableReservation): bool
+    public function update(User $user, Table_reservation $tableReservation): bool
     {
         return false;
     }
@@ -43,7 +43,7 @@ class TableReservationPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, table_reservation $tableReservation): bool
+    public function delete(User $user, Table_reservation $tableReservation): bool
     {
         return false;
     }
@@ -51,7 +51,7 @@ class TableReservationPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, table_reservation $tableReservation): bool
+    public function restore(User $user, Table_reservation $tableReservation): bool
     {
         return false;
     }
@@ -59,7 +59,7 @@ class TableReservationPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, table_reservation $tableReservation): bool
+    public function forceDelete(User $user, Table_reservation $tableReservation): bool
     {
         return false;
     }

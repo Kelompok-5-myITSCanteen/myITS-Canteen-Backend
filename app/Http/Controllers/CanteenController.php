@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\canteen;
+use App\Models\Canteen;
 use App\Http\Requests\StorecanteenRequest;
 use App\Http\Requests\UpdatecanteenRequest;
 

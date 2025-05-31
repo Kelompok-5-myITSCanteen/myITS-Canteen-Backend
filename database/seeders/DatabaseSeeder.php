@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            DummySeeder::class,
+            CanteenSeeder::class,
         ]);
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\menu;
-use App\Http\Requests\StoremenuRequest;
-use App\Http\Requests\UpdatemenuRequest;
+use App\Models\Menu;
+use App\Http\Requests\StoreMenuRequest;
+use App\Http\Requests\UpdateMenuRequest;
 
-class MenuController extends Controller
+class MenuController
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class MenuController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoremenuRequest $request)
+    public function store(StoreMenuRequest $request)
     {
         //
     }
@@ -35,7 +35,7 @@ class MenuController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(menu $menu)
+    public function show(Menu $menu)
     {
         //
     }
@@ -43,7 +43,7 @@ class MenuController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(menu $menu)
+    public function edit(Menu $menu)
     {
         //
     }
@@ -51,7 +51,7 @@ class MenuController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatemenuRequest $request, menu $menu)
+    public function update(UpdateMenuRequest $request, Menu $menu)
     {
         //
     }
@@ -59,7 +59,7 @@ class MenuController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(menu $menu)
+    public function destroy(Menu $menu)
     {
         //
     }
