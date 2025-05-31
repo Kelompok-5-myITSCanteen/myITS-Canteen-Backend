@@ -9,4 +9,21 @@ class canteen extends Model
 {
     /** @use HasFactory<\Database\Factories\CanteenFactory> */
     use HasFactory;
+
+    protected $table = 'canteens';
+    protected $primaryKey = 'k_id';
+    public $incrementing = false;
+    protected $keyType = 'string';
+
+    public $timestamps = false;
+
+    protected $fillable = [
+        'k_id',
+        'k_name',
+        'k_address',
+    ];
+
+    protected $casts = [
+        'k_id' => 'string',
+    ];
 }

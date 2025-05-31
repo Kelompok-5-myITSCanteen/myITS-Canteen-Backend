@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Canteen;
 use Illuminate\Database\Seeder;
 
 class CanteenSeeder extends Seeder
@@ -12,6 +13,6 @@ class CanteenSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Canteen::factory()->count(10)->create();
     }
 }

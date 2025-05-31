@@ -18,24 +18,28 @@ class DatabaseSeeder extends Seeder
         Role::firstOrCreate(['name' => 'customer']);
         Role::firstOrCreate(['name' => 'vendor']);
 
-        User::factory()->create([
-            'name' => 'Kevin Andreas',
-            'email' => 'kevin.andreascn@gmail.com',
-            'password' => bcrypt('password'),
-        ])->assignRole('customer');
+        // User::factory()->create([
+        //     'name' => 'Kevin Andreas',
+        //     'email' => 'kevin.andreascn@gmail.com',
+        //     'password' => bcrypt('password'),
+        // ])->assignRole('customer');
 
-        User::factory()->create([
-            'name' => 'Nathan Valen',
-            'email' => 'nathanvalen@gmail.com',
-            'password' => bcrypt('password'),
-        ])->assignRole('vendor');
+        // User::factory()->create([
+        //     'name' => 'Nathan Valen',
+        //     'email' => 'nathanvalen@gmail.com',
+        //     'password' => bcrypt('password'),
+        // ])->assignRole('vendor');
 
-        User::factory()->create([
-            'name' => 'Admin La Koste',
-            'email' => 'admin@gmail.com',
-            'password' => bcrypt('password'),
-        ])->assignRole('admin');
+        // User::factory()->create([
+        //     'name' => 'Admin La Koste',
+        //     'email' => 'admin@gmail.com',
+        //     'password' => bcrypt('password'),
+        // ])->assignRole('admin');
 
-        User::factory(10)->create();
+        // User::factory(10)->create();
+
+        $this->call([
+            CanteenSeeder::class,
+        ]);
     }
 }
