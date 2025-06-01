@@ -38,3 +38,4 @@ Route::resource('canteens', CanteenController::class);
 Route::resource('vendors', VendorController::class);
 
 Route::get('canteens/{id}/vendors', [CanteenController::class, 'getVendors']);
+Route::get('vendors/{vendor}/menus', [MenuController::class, 'showMenuByVendor']);
