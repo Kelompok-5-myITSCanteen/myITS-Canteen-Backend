@@ -11,6 +11,7 @@ use App\Http\Controllers\TransactionDetailController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\TableReservationController;
 use App\Http\Controllers\TableController;
+use App\Http\Controllers\VendorController;
 
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])->middleware('guest');
 Route::post('/register', [RegisteredUserController::class, 'store'])->middleware('guest');
@@ -34,3 +35,6 @@ Route::middleware('auth:sanctum', 'role:user')->group(function () {
 });
 
 Route::resource('canteens', CanteenController::class);
+Route::resource('vendors', VendorController::class);
+
+Route::get('canteens/{id}/vendors', [CanteenController::class, 'getVendors']);

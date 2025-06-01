@@ -2,43 +2,39 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
-use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Model;
 
-class User extends Authenticatable
+class Vendor extends Model
 {
-    use HasFactory, Notifiable, HasUuids, HasApiTokens, HasRoles;
+    /** @use HasFactory<\Database\Factories\VendorFactory> */
+    use HasFactory, HasUuids;
+
     protected $table = 'vendors';
     protected $primaryKey = 'v_id';
     public $incrementing = false;
+    protected $keyType = 'string';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    public $timestamps = false;
+
     protected $fillable = [
-        'v_id',
         'v_name',
         'v_join_date',
-        'k_id', // Canteen ID FK
-        'c_id' // Account ID FK
+        'k_id', 
+        'c_id', 
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
-        'v_id' => 'uuid',
-        'v_name' => 'varchar(60)',
-        'v_join_date' => 'date',
-        'k_id' => 'uuid', // Canteen ID FK
-        'c_id' => 'uuid' // Account ID FK
+        'v_id' => 'string',
     ];
+
+    public function canteen()
+    {
+        return $this->belongsTo(Canteen::class, 'k_id', 'k_id');
+    }
+    public function menus(){
+        return $this->hasMany(Menu::class, 'v_id', 'v_id');
+    }
+
 }

@@ -27,4 +27,12 @@ class Canteen extends Model
         'k_name' => 'varchar(60)',
         'k_address' => 'varchar(255)'
     ];
+
+    public function vendors(){
+        return $this->hasMany(Vendor::class, 'k_id', 'k_id');
+    }
+
+    public function tables(){
+        return $this->hasMany(Table::class, 'k_id', 'k_id');
+    }
 }
