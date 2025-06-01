@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Transction_Detail;
-use App\Http\Requests\StoreTransction_DetailRequest;
-use App\Http\Requests\UpdateTransction_DetailRequest;
+use App\Models\TransactionDetail;
+use App\Http\Requests\StoreTransactionDetailRequest;
+use App\Http\Requests\UpdateTransactionDetailRequest;
 
-class TransctionDetailController extends Controller
+class TransactionDetailController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class TransctionDetailController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTransction_DetailRequest $request)
+    public function store(StoreTransactionDetailRequest $request)
     {
         //
     }
@@ -35,7 +35,7 @@ class TransctionDetailController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Transction_Detail $transction_Detail)
+    public function show(TransactionDetail $transactionDetail)
     {
         //
     }
@@ -43,7 +43,7 @@ class TransctionDetailController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Transction_Detail $transction_Detail)
+    public function edit(TransactionDetail $transactionDetail)
     {
         //
     }
@@ -51,7 +51,7 @@ class TransctionDetailController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTransction_DetailRequest $request, Transction_Detail $transction_Detail)
+    public function update(UpdateTransactionDetailRequest $request, TransactionDetail $transactionDetail)
     {
         //
     }
@@ -59,7 +59,7 @@ class TransctionDetailController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Transction_Detail $transction_Detail)
+    public function destroy(TransactionDetail $transactionDetail)
     {
         //
     }

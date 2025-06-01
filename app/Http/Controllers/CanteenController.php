@@ -14,7 +14,7 @@ class CanteenController extends Controller
     public function index()
     {
         try {
-            $canteens = canteen::all();
+            $canteens = Canteen::all();
 
             return response()->json([
                 'status' => 'success',
@@ -25,6 +25,23 @@ class CanteenController extends Controller
             return response()->json([
                 'status' => 'failed',
                 'message' => "Kantin gagal ditemukan: " . $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function getVendors($id){
+        try {
+            $canteen = Canteen::with('vendors')->findOrFail($id);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => "Vendor berhasil ditemukan",
+                'data' => $canteen->vendors
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => "Vendor gagal ditemukan: " . $e->getMessage(),
             ], 500);
         }
     }
@@ -63,6 +80,7 @@ class CanteenController extends Controller
             ], 500);
         }
     }
+
 
     /**
      * Show the form for editing the specified resource.
