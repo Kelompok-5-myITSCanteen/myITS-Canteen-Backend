@@ -27,4 +27,12 @@ class Canteen extends Model
     protected $casts = [
         'k_id' => 'string',
     ];
+
+    public function vendors(){
+        return $this->hasMany(Vendor::class, 'k_id', 'k_id');
+    }
+
+    public function tables(){
+        return $this->hasMany(Table::class, 'k_id', 'k_id');
+    }
 }

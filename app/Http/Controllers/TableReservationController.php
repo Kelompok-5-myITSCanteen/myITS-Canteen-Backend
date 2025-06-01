@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Table_Reservation;
-use App\Http\Requests\StoreTable_ReservationRequest;
-use App\Http\Requests\UpdateTable_ReservationRequest;
+use App\Models\TableReservation;
+use App\Http\Requests\StoreTableReservationRequest;
+use App\Http\Requests\UpdateTableReservationRequest;
 
 class TableReservationController extends Controller
 {
@@ -27,7 +27,7 @@ class TableReservationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTable_ReservationRequest $request)
+    public function store(StoreTableReservationRequest $request)
     {
         //
     }
@@ -35,7 +35,7 @@ class TableReservationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Table_Reservation $table_Reservation)
+    public function show(TableReservation $tableReservation)
     {
         //
     }
@@ -43,7 +43,7 @@ class TableReservationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Table_Reservation $table_Reservation)
+    public function edit(TableReservation $tableReservation)
     {
         //
     }
@@ -51,7 +51,7 @@ class TableReservationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTable_ReservationRequest $request, Table_Reservation $table_Reservation)
+    public function update(UpdateTableReservationRequest $request, TableReservation $tableReservation)
     {
         //
     }
@@ -59,7 +59,7 @@ class TableReservationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Table_Reservation $table_Reservation)
+    public function destroy(TableReservation $tableReservation)
     {
         //
     }
