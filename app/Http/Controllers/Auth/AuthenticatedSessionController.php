@@ -50,4 +50,29 @@ class AuthenticatedSessionController extends Controller
             'message' => 'Berhasil keluar'
         ], 200);
     }
+
+    public function me(Request $request){
+        
+        try {
+            $user = $request->user();
+        
+            return response() -> json([
+                'status' => 'success',
+                'message' => 'Berhasil mendapatkan data pengguna.',
+                'data' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'role' => $user->roles->pluck('name')->first(),
+                ]
+                
+                ], 200);
+        } catch (\Exception $e){
+            return response() -> json([
+                'status' => 'failed',
+                'message' => 'Gagal mendapatkan data pengguna.',
+            ], 500);
+        }
+        
+    }
 }
