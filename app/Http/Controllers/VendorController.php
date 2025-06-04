@@ -24,7 +24,7 @@ class VendorController extends Controller
         } catch (\Exception $e){
             return response()->json([
                 'status' => 'failed',
-                'message' => "Vendor gagal ditemukan: " . $e->getMessage(),
+                'message' => "Vendor gagal ditemukan.",
             ], 500);
         }
     }
