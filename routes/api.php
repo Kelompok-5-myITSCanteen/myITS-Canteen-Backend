@@ -20,15 +20,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:sanctum', 'role:admin')->group(function () {
-    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
-
     Route::get('/admin', function (Request $request) {
         return response()->json(['message' => 'Welcome Admin!']);
     });
 });
 
 Route::middleware('auth:sanctum', 'role:user')->group(function () {
-    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
     Route::get('/user', function (Request $request) {
         return response()->json(['message' => 'Welcome User!']);
     });
@@ -36,6 +33,8 @@ Route::middleware('auth:sanctum', 'role:user')->group(function () {
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthenticatedSessionController::class, 'me']);
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
+    Route::resource('transactions', TransactionController::class);
 });
 
 Route::resource('canteens', CanteenController::class);
