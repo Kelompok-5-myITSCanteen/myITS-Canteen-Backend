@@ -34,6 +34,10 @@ Route::middleware('auth:sanctum', 'role:user')->group(function () {
     });
 });
 
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/me', [AuthenticatedSessionController::class, 'me']);
+});
+
 Route::resource('canteens', CanteenController::class);
 Route::resource('vendors', VendorController::class);
 
