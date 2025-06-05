@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         DB::statement("
-            CREATE VIEW chair_table_view AS
+            CREATE OR REPLACE VIEW chair_table_view AS
             SELECT 
                 c.ch_id,
                 c.ch_number,
