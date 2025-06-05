@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('table_reservations', function (Blueprint $table) {
-            $table->uuid('tb_id');
+        Schema::create('chair_reservations', function (Blueprint $table) {
+            $table->uuid('ch_id');
             $table->uuid('r_id');
 
-            $table->primary(['tb_id', 'r_id']);
+            $table->primary(['ch_id', 'r_id']);
 
-            $table->foreign('tb_id')->references('tb_id')->on('tables')->onDelete('cascade');
+            $table->foreign('ch_id')->references('ch_id')->on('chairs')->onDelete('cascade');
             $table->foreign('r_id')->references('r_id')->on('reservations')->onDelete('cascade');
         });
     }

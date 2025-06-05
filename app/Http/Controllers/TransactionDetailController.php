@@ -63,4 +63,58 @@ class TransactionDetailController extends Controller
     {
         //
     }
+
+    public function createForTransaction($t_id, $validatedItems){
+        try {
+            $createdDetails = [];
+
+            foreach ($validatedItems as $item) {
+                $detail = $this->createTransactionDetail($t_id, $item['item'], $item['quantity']);
+            
+                if (!$detail['success']){
+                    throw new \Exception($detail['message']);
+                }
+
+                $createdDetails[] = $detail['data'];
+            }
+
+            return [
+                'success' => true,
+                'message' => 'Berhasil membuat detail transaksi',
+                'data' => $createdDetails,
+            ];
+
+
+        } catch (\Exception $e) {
+            return [
+                'success' => false,
+                'message' => 'Gagal membuat detail transaksi: ' . $e->getMessage(),
+            ];
+        }
+    }
+
+    public function createTransactionDetail($t_id, $menu, $quantity){
+        try {
+            $transactionDetail = TransactionDetail::create([
+                'td_quantity' => $quantity,
+                't_id' => $t_id,
+                'm_id' => $menu->m_id,
+            ]);
+
+            $menu->decrement('m_stock', $quantity);
+
+            return [
+                'success' => true,
+                'message' => 'Berhasil membuat detail transaksi',
+                'data' => $transactionDetail,
+            ];
+
+
+        } catch (\Exception $e) {
+            return [
+                'success' => false,
+                'message' => 'Gagal membuat detail transaksi',
+            ];
+        }
+    }
 }

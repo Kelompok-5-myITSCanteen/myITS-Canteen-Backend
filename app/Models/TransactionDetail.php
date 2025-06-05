@@ -11,7 +11,7 @@ class TransactionDetail extends Model
     /** @use HasFactory<\Database\Factories\TransctionDetailFactory> */
     use HasFactory, HasUuids;
 
-    protected $table = 'transction_details';
+    protected $table = 'transaction_details';
     protected $primaryKey = 'td_id';
     public $incrementing = false;
     protected $keyType = 'string';
