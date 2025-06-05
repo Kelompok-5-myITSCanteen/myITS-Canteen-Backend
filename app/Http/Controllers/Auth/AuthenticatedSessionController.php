@@ -63,6 +63,7 @@ class AuthenticatedSessionController extends Controller
                     'id' => $user->id,
                     'name' => $user->name,
                     'email' => $user->email,
+                    'point' => $user->point,
                     'role' => $user->roles->pluck('name')->first(),
                 ]
                 

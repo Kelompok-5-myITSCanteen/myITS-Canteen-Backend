@@ -20,20 +20,14 @@ class Table extends Model
 
     protected $fillable = [
         'tb_id',
-        'tb_number',
-        'tb_capacity',
-        'k_id',
+        'tb_char',
     ];
 
     protected $casts = [
         'tb_id' => 'string',
     ];
 
-    public function canteens(){
-        return $this->belongsTo(Canteen::class, 'k_id', 'k_id');
-    }
-
-    public function table_reservations(){
-        return $this->hasMany(TableReservation::class, 'tb_id', 'tb_id');
+    public function chairs(){
+        return $this->hasMany(Chair::class, 'tb_id', 'tb_id');
     }
 }

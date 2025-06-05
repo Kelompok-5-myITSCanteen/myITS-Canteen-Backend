@@ -15,12 +15,12 @@ return new class extends Migration
             $table->uuid('m_id')->primary();
             $table->string('m_category', 60);
             $table->string('m_name', 60);
-            $table->string('m_image', 255);
+            $table->string('m_image', 255)->nullable();
             $table->decimal('m_price', 12, 2);
             $table->integer('m_stock');
             $table->uuid('v_id');
 
-            $table->foreign('v_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('v_id')->references('v_id')->on('vendors')->onDelete('cascade');
         });
     }
 

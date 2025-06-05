@@ -63,4 +63,52 @@ class ReservationController extends Controller
     {
         //
     }
+
+    public function createChairReservation($r_id, $chairs)
+    {
+        try {
+            
+
+            return [
+                'success' => true,
+                'message' => 'Reservasi kursi berhasil dibuat',
+                'data' => $reservation
+            ];
+
+        } catch (\Exception $e) {
+            return [
+                'success' => false,
+                'message' => 'Gagal membuat reservasi kursi: ' . $e->getMessage()
+            ];
+        }
+    }
+
+    public function createForTransaction($t_id, $time_in, $time_out, $chairs)
+    {
+      try {
+        $reservation = Reservation::create([
+            't_id' => $t_id,
+            'r_time_in' => $time_in,
+            'r_time_out' => $time_out
+        ]);
+
+        $crResult = (new ChairReservationController())->createForTransaction($reservation->r_id, $chairs);
+
+        if (!$crResult['success']) {
+            throw new \Exception($crResult['message']);
+        }
+
+        return [
+            'success' => true,
+            'message' => 'Reservasi berhasil dibuat',
+            'data' => $reservation
+        ];
+
+      } catch (\Exception $e){
+            return [
+                'success' => false,
+                'message' => 'Gagal membuat reservasi: ' . $e->getMessage()
+            ];
+      }
+    }
 }

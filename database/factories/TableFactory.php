@@ -17,7 +17,7 @@ class TableFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'tb_char' => $this->faker->randomElement(range('A', 'Z')),
         ];
     }
 }
