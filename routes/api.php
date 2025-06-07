@@ -27,6 +27,7 @@ Route::middleware('auth:sanctum', 'role:admin')->group(function () {
 });
 
 Route::middleware('auth:sanctum', 'role:user')->group(function () {
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
     Route::get('/user', function (Request $request) {
         return response()->json(['message' => 'Welcome User!']);
     });
@@ -40,8 +41,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::resource('canteens', CanteenController::class);
 Route::resource('vendors', VendorController::class);
+Route::resource('menu', MenuController::class);
 
-Route::get('vendors/{vendor}/menus', [MenuController::class, 'showMenuByVendor']);
+Route::prefix('vendors/{vendor}')->group(function () {
+    Route::get('/menus', [MenuController::class, 'showMenuByVendor']);
+});
+
 
 Route::prefix('canteens/{canteen}')->group(function () {
     Route::get('/vendors', [CanteenController::class, 'getVendors']);

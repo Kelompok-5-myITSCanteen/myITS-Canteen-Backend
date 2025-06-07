@@ -15,7 +15,7 @@ class MenuController extends Controller
     public function showMenuByVendor(Vendor $vendor)
     {
         try {
-            $menus = Menu::where('vendor_id', $vendor->id)->get();
+            $menus = Menu::where('v_id', $vendor->v_id)->get();
             return response()->json([
                 'status' => 'success',
                 'message' => "Menu berhasil ditemukan",
@@ -46,6 +46,7 @@ class MenuController extends Controller
         //
         try {
             $menu = Menu::create($request->validated());
+
             return response()->json([
                 'status' => 'success',
                 'message' => "Menu berhasil ditambahkan",
@@ -54,7 +55,7 @@ class MenuController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'failed',
-                'message' => "Menu gagal ditambahkan: " . $e->getMessage(),
+                'message' => "Menu gagal ditambahkan: "
             ], 500);
         }
     }
