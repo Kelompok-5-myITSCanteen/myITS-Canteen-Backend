@@ -13,11 +13,7 @@ return new class extends Migration
     {
         Schema::create('tables', function (Blueprint $table) {
             $table->uuid('tb_id')->primary();
-            $table->integer('tb_number');
-            $table->integer('tb_capacity');
-            $table->uuid('k_id');
-
-            $table->foreign('k_id')->references('k_id')->on('canteens')->onDelete('cascade');
+            $table->char('tb_char', 1);
         });
     }
 

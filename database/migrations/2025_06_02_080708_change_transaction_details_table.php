@@ -14,11 +14,10 @@ return new class extends Migration
         Schema::dropIfExists('transaction_details');
 
         Schema::create('transaction_details', function (Blueprint $table) {
+            $table->uuid('td_id')->primary();
             $table->uuid('t_id');
             $table->uuid('m_id');
             $table->integer('td_quantity');
-
-            $table->primary(['t_id', 'm_id']);
 
             $table->foreign('t_id')->references('t_id')->on('transactions')->onDelete('cascade');            
             $table->foreign('m_id')->references('m_id')->on('menus')->onDelete('cascade');

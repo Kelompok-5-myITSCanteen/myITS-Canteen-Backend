@@ -18,13 +18,13 @@ class CanteenController extends Controller
 
             return response()->json([
                 'status' => 'success',
-                'message' => "Kantin berhasil ditemukan",
+                'message' => "Kantin berhasil ditemukan.",
                 'data' => $canteens
             ], 200);
         } catch (\Exception $e){
             return response()->json([
                 'status' => 'failed',
-                'message' => "Kantin gagal ditemukan: " . $e->getMessage(),
+                'message' => "Kantin gagal ditemukan.",
             ], 500);
         }
     }
@@ -41,7 +41,7 @@ class CanteenController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'failed',
-                'message' => "Vendor gagal ditemukan: " . $e->getMessage(),
+                'message' => "Vendor gagal ditemukan.",
             ], 500);
         }
     }
@@ -76,7 +76,7 @@ class CanteenController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'failed',
-                'message' => 'Kantin gagal ditemukan: ' . $e->getMessage(),
+                'message' => 'Kantin gagal ditemukan.',
             ], 500);
         }
     }

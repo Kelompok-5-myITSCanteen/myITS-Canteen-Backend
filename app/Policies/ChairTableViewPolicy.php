@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\TableReservation;
+use App\Models\ChairTableView;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class TableReservationPolicy
+class ChairTableViewPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -19,7 +19,7 @@ class TableReservationPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, TableReservation $tableReservation): bool
+    public function view(User $user, ChairTableView $chairTableView): bool
     {
         return false;
     }
@@ -35,7 +35,7 @@ class TableReservationPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, TableReservation $tableReservation): bool
+    public function update(User $user, ChairTableView $chairTableView): bool
     {
         return false;
     }
@@ -43,7 +43,7 @@ class TableReservationPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, TableReservation $tableReservation): bool
+    public function delete(User $user, ChairTableView $chairTableView): bool
     {
         return false;
     }
@@ -51,7 +51,7 @@ class TableReservationPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, TableReservation $tableReservation): bool
+    public function restore(User $user, ChairTableView $chairTableView): bool
     {
         return false;
     }
@@ -59,7 +59,7 @@ class TableReservationPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, TableReservation $tableReservation): bool
+    public function forceDelete(User $user, ChairTableView $chairTableView): bool
     {
         return false;
     }

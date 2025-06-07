@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Table>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ChairTableView>
  */
-class TableFactory extends Factory
+class ChairTableViewFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +17,7 @@ class TableFactory extends Factory
     public function definition(): array
     {
         return [
-            'tb_char' => $this->faker->randomElement(range('A', 'Z')),
+            //
         ];
     }
 }

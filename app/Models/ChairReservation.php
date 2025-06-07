@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 
-class Table_Reservation extends Model
+class ChairReservation extends Model
 {
     /** @use HasFactory<\Database\Factories\TableReservationFactory> */
-    use HasFactory, HasUuids;
+    use HasFactory;
 
-    protected $table = 'table_reservations';
+    protected $chair = 'chair_reservations';
 
     public $incrementing = false;
     protected $keyType = 'string';
@@ -19,19 +19,19 @@ class Table_Reservation extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'tb_id',
+        'ch_id',
         'r_id'
     ];
 
     protected $casts = [
-        'tb_id' => 'string',
+        'ch_id' => 'string',
         'r_id' => 'string',
     ];
 
     protected function setKeysForSaveQuery($query)
     {
         $query
-            ->where('tb_id', '=', $this->getAttribute('tb_id'))
+            ->where('ch_id', '=', $this->getAttribute('ch_id'))
             ->where('r_id', '=', $this->getAttribute('r_id'));
 
         return $query;
@@ -40,13 +40,13 @@ class Table_Reservation extends Model
     public function getKey()
     {
         return [
-            'tb_id' => $this->getAttribute('tb_id'),
+            'ch_id' => $this->getAttribute('ch_id'),
             'r_id' => $this->getAttribute('r_id')
         ];
     }
 
-    public function tables(){
-        return $this->belongsTo(Table::class, 'tb_id', 'tb_id');
+    public function chairs(){
+        return $this->belongsTo(Chair::class, 'ch_id', 'ch_id');
     }
 
     public function reservations(){
