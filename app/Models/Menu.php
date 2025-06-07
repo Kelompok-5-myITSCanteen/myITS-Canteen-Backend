@@ -28,14 +28,8 @@ class Menu extends Model
     ];
 
     protected $casts = [
-        'm_id' => 'uuid',
-        'm_name' => 'varchar:60',
-        'm_category' => 'varchar:60',
-        'm_price' => 'decimal(12,2)',
-        'm_stock' => 'integer',
-        'm_image' => 'varchar:255',
-        'v_id' => 'uuid'
-
+        'm_id' => 'string',
+        'v_id' => 'string'
     ];
 
     public function transaction_details(){

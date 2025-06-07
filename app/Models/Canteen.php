@@ -23,9 +23,7 @@ class Canteen extends Model
     ];
 
     protected $casts = [
-        'k_id' => 'uuid',
-        'k_name' => 'varchar(60)',
-        'k_address' => 'varchar(255)'
+        'k_id' => 'string',
     ];
 
     public function vendors(){
