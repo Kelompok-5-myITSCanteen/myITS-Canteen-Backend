@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Vendor;
 
 class Menu extends Model
 {
@@ -14,8 +15,6 @@ class Menu extends Model
     protected $table = 'menus';
     protected $primaryKey = 'm_id';
     public $incrementing = false;
-    protected $keyType = 'string';
-
     public $timestamps = false;
 
     protected $fillable = [
@@ -29,7 +28,14 @@ class Menu extends Model
     ];
 
     protected $casts = [
-        'm_id' => 'string',
+        'm_id' => 'uuid',
+        'm_name' => 'varchar:60',
+        'm_category' => 'varchar:60',
+        'm_price' => 'decimal(12,2)',
+        'm_stock' => 'integer',
+        'm_image' => 'varchar:255',
+        'v_id' => 'uuid'
+
     ];
 
     public function transaction_details(){

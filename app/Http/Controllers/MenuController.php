@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Menu;
+use App\Models\Vendor;
 use App\Http\Requests\StoreMenuRequest;
 use App\Http\Requests\UpdateMenuRequest;
 
@@ -11,9 +12,21 @@ class MenuController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function showMenuByVendor(Vendor $vendor)
     {
-        //
+        try {
+            $menus = Menu::where('vendor_id', $vendor->id)->get();
+            return response()->json([
+                'status' => 'success',
+                'message' => "Menu berhasil ditemukan",
+                'data' => $menus
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => "Menu gagal ditemukan",
+            ], 500);
+        }
     }
 
     /**
@@ -22,6 +35,7 @@ class MenuController extends Controller
     public function create()
     {
         //
+        
     }
 
     /**
@@ -30,6 +44,19 @@ class MenuController extends Controller
     public function store(StoreMenuRequest $request)
     {
         //
+        try {
+            $menu = Menu::create($request->validated());
+            return response()->json([
+                'status' => 'success',
+                'message' => "Menu berhasil ditambahkan",
+                'data' => $menu
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => "Menu gagal ditambahkan: " . $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**

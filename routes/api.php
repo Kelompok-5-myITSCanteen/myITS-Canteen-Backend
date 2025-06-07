@@ -41,6 +41,8 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::resource('canteens', CanteenController::class);
 Route::resource('vendors', VendorController::class);
 
+Route::get('vendors/{vendor}/menus', [MenuController::class, 'showMenuByVendor']);
+
 Route::prefix('canteens/{canteen}')->group(function () {
     Route::get('/vendors', [CanteenController::class, 'getVendors']);
     Route::get('/available-chairs', [ChairTableViewController::class, 'getAvailableChairs']);

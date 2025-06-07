@@ -14,18 +14,18 @@ class Canteen extends Model
     protected $table = 'canteens';
     protected $primaryKey = 'k_id';
     public $incrementing = false;
-    protected $keyType = 'string';
-
     public $timestamps = false;
 
     protected $fillable = [
         'k_id',
         'k_name',
-        'k_address',
+        'k_address'
     ];
 
     protected $casts = [
-        'k_id' => 'string',
+        'k_id' => 'uuid',
+        'k_name' => 'varchar(60)',
+        'k_address' => 'varchar(255)'
     ];
 
     public function vendors(){
