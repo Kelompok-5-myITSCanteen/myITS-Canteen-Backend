@@ -25,6 +25,7 @@ class Transaction extends Model
         't_total',
         't_discount',
         't_payment',
+        't_status',
         'c_id'
     ];
 

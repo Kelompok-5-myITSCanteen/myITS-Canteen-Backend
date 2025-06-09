@@ -36,6 +36,7 @@ Route::middleware('auth:sanctum', 'role:user')->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthenticatedSessionController::class, 'me']);
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
+    Route::get('/transactions/user', [TransactionController::class, 'getByUser']);
     Route::resource('transactions', TransactionController::class);
 });
 
