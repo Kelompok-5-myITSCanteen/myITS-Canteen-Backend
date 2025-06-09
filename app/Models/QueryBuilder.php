@@ -42,6 +42,49 @@ class QueryBuilder
         ");
     }
 
+    public static function initTransactionReservationView()
+    {
+        return ("
+            CREATE OR REPLACE VIEW transaction_reservation_view AS
+            SELECT 
+                r.r_id,
+                r.r_time_in,
+                r.r_time_out,
+                ctv.ch_id,
+                ctv.chair_name
+                
+            FROM reservations r
+            INNER JOIN chair_reservations cr ON cr.r_id = r.r_id
+            INNER JOIN chair_table_view ctv ON ctv.ch_id = cr.ch_id
+        ");
+    }
+
+    public static function initVendorTransactionCountView(){
+        return ("
+            CREATE OR REPLACE VIEW vendor_transaction_count_view AS
+            SELECT v.v_id, COUNT(t.t_id) as transaction_count
+            FROM transaction_details td
+            NATURAL JOIN menus m
+            NATURAL JOIN vendors v
+            JOIN transactions t ON td.t_id = t.t_id
+            WHERE DATE(t.t_time) = CURRENT_DATE
+            GROUP BY v.v_id
+        ");
+    }
+
+    public static function initVendorPurchasedMenusView(){
+        return ("
+            CREATE OR REPLACE VIEW vendor_purchased_menus_view AS
+            SELECT v.v_id, SUM(td.td_quantity) AS total_purchased
+            FROM transaction_details td
+            NATURAL JOIN menus m
+            NATURAL JOIN vendors v
+            JOIN transactions t ON td.t_id = t.t_id
+            WHERE DATE(t.t_time) = CURRENT_DATE
+            GROUP BY v.v_id
+        ");
+    }
+
     public static function initVendorEarningsView()
     {
         return ("
@@ -54,6 +97,19 @@ class QueryBuilder
             NATURAL JOIN transactions T
             WHERE DATE(T.t_time) = CURRENT_DATE
             GROUP BY M.v_id, DATE(T.t_time)
+        ");
+    }
+
+    public static function initVendorUniqueCustomerCountView(){
+        return ("
+            CREATE OR REPLACE VIEW vendor_unique_customer_count_view AS
+            SELECT v.v_id, COUNT(DISTINCT t.c_id) AS unique_customers
+            FROM transaction_details td
+            NATURAL JOIN menus m
+            NATURAL JOIN vendors v
+            JOIN transactions t ON td.t_id = t.t_id
+            WHERE DATE(t.t_time) = CURRENT_DATE
+            GROUP BY v.v_id
         ");
     }
 }
