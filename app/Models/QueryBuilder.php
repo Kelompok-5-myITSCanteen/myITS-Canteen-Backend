@@ -4,7 +4,7 @@ namespace App\Models;
 
 class QueryBuilder
 {
-    public static function getQuery()
+    public static function initMenuByVendorView()
     {
         return ("
             CREATE OR REPLACE VIEW menuBy_vendorID as (
@@ -31,5 +31,26 @@ class QueryBuilder
         ");
     }
 
-    
+    public static function initTransactionMenuView()
+    {
+        return ("
+            CREATE OR REPLACE VIEW transaction_menu_view AS
+            SELECT *, 
+                (TD.td_quantity * M.m_price) AS total_price
+            FROM transaction_details TD
+            NATURAL JOIN menus M
+        ");
+    }
+
+    public static function initVendorEarningsView()
+    {
+        return ("
+            CREATE OR REPLACE VIEW vendor_earnings_view AS
+            SELECT SUM(TD.td_quantity * M.m_price) AS total_earnings, 
+                M.v_id
+            FROM transaction_details TD
+            NATURAL JOIN menus M
+            GROUP BY M.v_id
+        ");
+    }
 }
