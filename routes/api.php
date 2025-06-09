@@ -25,6 +25,7 @@ Route::middleware('auth:sanctum', 'role:admin')->group(function () {
         return response()->json(['message' => 'Welcome Admin!']);
     });
     Route::resource('menus', MenuController::class);
+    Route::get('/vendors/daily-data', [VendorController::class, 'getDailyData']);
 });
 
 Route::middleware('auth:sanctum')->group(function () {
