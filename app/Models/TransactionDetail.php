@@ -33,7 +33,7 @@ class TransactionDetail extends Model
         return $this->belongsTo(Transaction::class, 't_id', 't_id');
     }
 
-    public function menus(){
-        return $this->hasMany(Menu::class, 'm_id', 'm_id');
+    public function menu(){
+        return $this->belongsTo(Menu::class, 'm_id', 'm_id');
     }
 }

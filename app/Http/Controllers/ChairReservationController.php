@@ -72,7 +72,7 @@ class ChairReservationController extends Controller
             foreach ($chairs as $chair){
                 $reservation = ChairReservation::create([
                     'r_id' => $r_id,
-                    'ch_id' => $chair->ch_id,
+                    'ch_id' => $chair,
                 ]);
 
                 $createdReservations[] = $reservation;

@@ -36,6 +36,7 @@ class ChairTableView extends Model
             })
             ->where('ctv.k_id', $canteenId)
             ->whereNull('r.r_id')
+            ->distinct()
             ->select('ctv.ch_id', 'ctv.chair_name')
             ->get();
     }

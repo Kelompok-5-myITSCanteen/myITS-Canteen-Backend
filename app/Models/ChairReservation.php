@@ -45,11 +45,11 @@ class ChairReservation extends Model
         ];
     }
 
-    public function chairs(){
+    public function chair(){
         return $this->belongsTo(Chair::class, 'ch_id', 'ch_id');
     }
 
-    public function reservations(){
+    public function reservation(){
         return $this->belongsTo(Reservation::class, 'r_id', 'r_id');
     }
 }
