@@ -24,13 +24,7 @@ Route::middleware('auth:sanctum', 'role:admin')->group(function () {
     Route::get('/admin', function (Request $request) {
         return response()->json(['message' => 'Welcome Admin!']);
     });
-});
-
-Route::middleware('auth:sanctum', 'role:user')->group(function () {
-    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
-    Route::get('/user', function (Request $request) {
-        return response()->json(['message' => 'Welcome User!']);
-    });
+    Route::resource('menus', MenuController::class);
 });
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -40,16 +34,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('transactions', TransactionController::class);
 });
 
-Route::resource('canteens', CanteenController::class);
-Route::resource('vendors', VendorController::class);
-Route::resource('menu', MenuController::class);
-
-Route::prefix('vendors/{vendor}')->group(function () {
-    Route::get('/menus', [MenuController::class, 'showMenuByVendor']);
-});
-
-
+// by canteen
+Route::get('/canteens', [CanteenController::class, 'index']);
 Route::prefix('canteens/{canteen}')->group(function () {
+    Route::get('/menus', [MenuController::class, 'showMenuByCanteen']);
     Route::get('/vendors', [CanteenController::class, 'getVendors']);
     Route::get('/available-chairs', [ChairTableViewController::class, 'getAvailableChairs']);
+});
+
+// by vendor
+Route::prefix('vendors/{vendor}')->group(function () {
+    Route::get('/menus', [MenuController::class, 'showMenuByVendor']);
 });

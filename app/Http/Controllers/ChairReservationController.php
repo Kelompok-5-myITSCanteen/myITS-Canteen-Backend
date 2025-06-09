@@ -87,7 +87,7 @@ class ChairReservationController extends Controller
         } catch (\Exception $e) {
             return [
                 'success' => false,
-                'message' => 'Gagal membuat reservasi kursi: ' . $e->getMessage()
+                'message' => 'Gagal membuat reservasi kursi: ' 
             ];
         }
     }

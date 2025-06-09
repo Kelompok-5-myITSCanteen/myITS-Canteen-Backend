@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StoreMenuRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class StoreMenuRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return Auth::check();
     }
 
     /**
@@ -22,7 +23,11 @@ class StoreMenuRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
-        ];
+        'm_name'     => 'required|string|max:60|unique:menus,m_name',
+        'm_price'    => 'required|numeric|min:0|max:1000000',
+        'm_image'    => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'm_category' => 'required|string|in:makanan,minuman,snack',
+        'm_stock'    => 'required|integer|min:1|max:10000',
+    ];
     }
 }
