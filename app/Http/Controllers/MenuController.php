@@ -154,9 +154,17 @@ class MenuController extends Controller
      */
     public function update(UpdateMenuRequest $request, Menu $menu)
     {
-        //
         try {
-            $menu->update($request->validated());
+            $vendorId = Vendor::where('c_id', auth()->user()->id)->value('v_id');
+            // Find the vendor associated with this user
+            if (!$vendorId) {
+                return response()->json([
+                    'status' => 'failed',
+                    'message' => 'Vendor tidak ditemukan untuk akun ini',
+                ], 404);
+            }
+            $menu->update($request->all());
+            $menu->refresh();
             return response()->json([
                 'status' => 'success',
                 'message' => "Menu berhasil diupdate",
@@ -176,6 +184,22 @@ class MenuController extends Controller
     public function destroy(Menu $menu)
     {
         try {
+            $vendorId = Vendor::where('c_id', auth()->user()->id)->value('v_id');
+            // Find the vendor associated with this user
+            if (!$vendorId) {
+                return response()->json([
+                    'status' => 'failed',
+                    'message' => 'Vendor tidak ditemukan untuk akun ini',
+                ], 404);
+            }
+            // Check if the menu belongs to this vendor
+            if ($menu->v_id != $vendorId) {
+                return response()->json([
+                    'status' => 'failed',
+                    'message' => 'Anda tidak berhak menghapus menu ini',
+                ], 403);
+            }
+
             $menu->delete();
             return response()->json([
                 'status' => 'success',
