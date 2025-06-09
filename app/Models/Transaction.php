@@ -37,6 +37,10 @@ class Transaction extends Model
         return $this->hasMany(TransactionDetail::class, 't_id', 't_id');
     }
 
+    public function reservation(){
+        return $this->hasOne(Reservation::class, 't_id', 't_id');
+    }
+
     public function users(){
         return $this->belongsTo(User::class, 'c_id', 'id');
     }

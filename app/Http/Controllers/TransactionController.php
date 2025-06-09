@@ -200,17 +200,41 @@ class TransactionController extends Controller
         try {
 
             $transactions = Transaction::where('c_id', $user->id)
+                ->with(['transaction_details.menu', 'reservation.chair_reservations.chair'])
                 ->orderBy('t_time')
                 ->get()
                 ->map(function ($transaction){
                     return [
-                        'transaction_id' => $transaction->t_id,
-                        'is_dine' => $transaction->t_is_dine,
-                        'time' => $transaction->t_time,
-                        'total' => $transaction->t_total,
-                        'discount' => $transaction->t_discount,
-                        'payment' => $transaction->t_payment,
-                        'status' => $transaction->t_status
+                        't_id' => $transaction->t_id,
+                        't_time' => $transaction->t_time,
+                        't_is_dine' => $transaction->t_is_dine,
+                        't_total' => $transaction->t_total,
+                        't_discount' => $transaction->t_discount,
+                        't_payment' => $transaction->t_payment,
+                        't_status' => $transaction->t_status,
+
+                        'items' => $transaction->transaction_details->map(function ($transaction_detail){
+                            return [
+                                'm_id' => $transaction_detail->m_id,
+                                'm_name' => $transaction_detail->menu->m_name,
+                                'm_price' => $transaction_detail->menu->m_price,
+                                'm_quantity' => $transaction_detail->td_quantity,
+                            ];
+                        }),
+
+                        'reservation' => $transaction->is_dine ? null : [
+                            'r_id' => $transaction->reservation->r_id,
+                            'time_in' => $transaction->reservation->r_time_in,
+                            'time_out' => $transaction->reservation->r_time_out,
+                            'chairs' => $transaction->reservation->chair_reservations->map(function ($chair_reservation) {
+                                $view = ChairTableView::where('ch_id', $chair_reservation->chair->ch_id)->first();
+
+                                return [
+                                    'ch_id' => $chair_reservation->chair->ch_id,
+                                    'ch_name' => $view->chair_name
+                                ];
+                            })
+                        ]
                     ];
                 });
 
