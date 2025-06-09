@@ -46,11 +46,14 @@ class QueryBuilder
     {
         return ("
             CREATE OR REPLACE VIEW vendor_earnings_view AS
-            SELECT SUM(TD.td_quantity * M.m_price) AS total_earnings, 
-                M.v_id
+            SELECT SUM(TD.td_quantity * M.m_price) AS total_earnings,
+                M.v_id,
+                DATE(T.t_time) AS transaction_date
             FROM transaction_details TD
             NATURAL JOIN menus M
-            GROUP BY M.v_id
+            NATURAL JOIN transactions T
+            WHERE DATE(T.t_time) = CURRENT_DATE
+            GROUP BY M.v_id, DATE(T.t_time)
         ");
     }
 }
