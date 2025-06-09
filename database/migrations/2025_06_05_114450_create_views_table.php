@@ -14,6 +14,8 @@ return new class extends Migration
     public function up(): void
     {
         DB::statement(QueryBuilder::initChairTableView());
+        DB::statement(QueryBuilder::initTransactionMenuView());
+        DB::statement(QueryBuilder::initVendorEarningsView());
     }
 
     /**
