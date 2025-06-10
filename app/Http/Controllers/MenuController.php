@@ -106,7 +106,8 @@ class MenuController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreMenuRequest $request){
+    public function store(StoreMenuRequest $request)
+    {
         try {
             $vendorId = Vendor::where('c_id', auth()->user()->id)->value('v_id');
             $data = $request->validated();
@@ -132,7 +133,6 @@ class MenuController extends Controller
                 'message' => "Menu berhasil ditambahkan",
                 'data' => $menu
             ], 201);
-
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'failed',
@@ -156,15 +156,33 @@ class MenuController extends Controller
     {
         try {
             $vendorId = Vendor::where('c_id', auth()->user()->id)->value('v_id');
-            // Find the vendor associated with this user
+
             if (!$vendorId) {
                 return response()->json([
                     'status' => 'failed',
                     'message' => 'Vendor tidak ditemukan untuk akun ini',
                 ], 404);
             }
-            $menu->update($request->all());
+
+            $data = $request->validated();
+
+            if ($request->hasFile('m_image')) {
+                if ($menu->m_image) {
+                    Storage::disk('public')->delete(str_replace('storage/', '', $menu->m_image));
+                }
+
+                $imageName = $menu->m_id . '.' . $request->file('m_image')->getClientOriginalExtension();
+                Storage::disk('public')->putFileAs(
+                    'images/menus',
+                    $request->file('m_image'),
+                    $imageName
+                );
+                $data['m_image'] = 'storage/images/menus/' . $imageName;
+            }
+
+            $menu->update($data);
             $menu->refresh();
+
             return response()->json([
                 'status' => 'success',
                 'message' => "Menu berhasil diupdate",
@@ -173,7 +191,7 @@ class MenuController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'failed',
-                'message' => "Menu gagal diupdate"
+                'message' => "Menu gagal diupdate: " . $e->getMessage()
             ], 500);
         }
     }
