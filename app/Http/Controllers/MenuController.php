@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rules\Can;
+
 
 class MenuController extends Controller
 {
@@ -152,7 +154,7 @@ class MenuController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateMenuRequest $request, Menu $menu)
+    public function updateMenu(UpdateMenuRequest $request, Menu $menu)
     {
         try {
             $vendorId = Vendor::where('c_id', auth()->user()->id)->value('v_id');
@@ -186,12 +188,13 @@ class MenuController extends Controller
             return response()->json([
                 'status' => 'success',
                 'message' => "Menu berhasil diupdate",
-                'data' => $menu
+                'data' => $menu,
+                'request' => $request->all(),
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'failed',
-                'message' => "Menu gagal diupdate: " . $e->getMessage()
+                'message' => "Menu gagal diupdate",
             ], 500);
         }
     }
