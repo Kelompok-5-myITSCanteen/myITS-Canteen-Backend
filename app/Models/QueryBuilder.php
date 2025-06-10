@@ -62,7 +62,7 @@ class QueryBuilder
     public static function initVendorTransactionCountView(){
         return ("
             CREATE OR REPLACE VIEW vendor_transaction_count_view AS
-            SELECT v.v_id, COUNT(t.t_id) as transaction_count
+            SELECT v.v_id, COUNT(DISTINCT t.t_id) as transaction_count
             FROM transaction_details td
             NATURAL JOIN menus m
             NATURAL JOIN vendors v
