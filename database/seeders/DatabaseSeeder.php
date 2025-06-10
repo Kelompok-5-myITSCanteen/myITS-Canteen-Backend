@@ -16,6 +16,8 @@ use App\Models\TableReservation;
 use Spatie\Permission\Models\Role;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use App\Models\QueryBuilder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -72,7 +74,6 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             CanteenSeeder::class,
-            // VendorSeeder::class,
         ]);
     }
 }

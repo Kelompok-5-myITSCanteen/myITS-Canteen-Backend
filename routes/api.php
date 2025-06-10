@@ -26,11 +26,13 @@ Route::middleware('auth:sanctum', 'role:admin')->group(function () {
     });
     Route::resource('menus', MenuController::class);
     Route::post('menus/update/{menu}', [MenuController::class, 'updateMenu']);
+    Route::get('/vendors/daily-data', [VendorController::class, 'getDailyData']);
 });
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthenticatedSessionController::class, 'me']);
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
+    Route::get('/transactions/user', [TransactionController::class, 'getByUser']);
     Route::resource('transactions', TransactionController::class);
 });
 

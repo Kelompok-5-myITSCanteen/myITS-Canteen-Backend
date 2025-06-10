@@ -20,6 +20,7 @@ return new class extends Migration
             $table->decimal('t_total', 12, 2);
             $table->decimal('t_discount', 12, 2)->nullable();
             $table->string('t_payment', 60);
+            $table->string('t_status', 60);
             $table->uuid('c_id');
 
             $table->foreign('c_id')->references('id')->on('users')->onDelete('cascade');            

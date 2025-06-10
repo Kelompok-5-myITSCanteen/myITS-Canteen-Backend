@@ -25,6 +25,7 @@ class Transaction extends Model
         't_total',
         't_discount',
         't_payment',
+        't_status',
         'c_id'
     ];
 
@@ -34,6 +35,10 @@ class Transaction extends Model
 
     public function transaction_details(){
         return $this->hasMany(TransactionDetail::class, 't_id', 't_id');
+    }
+
+    public function reservation(){
+        return $this->hasOne(Reservation::class, 't_id', 't_id');
     }
 
     public function users(){

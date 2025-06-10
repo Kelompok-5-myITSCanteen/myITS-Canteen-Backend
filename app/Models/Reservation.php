@@ -29,8 +29,8 @@ class Reservation extends Model
         'r_id' => 'string',
     ];
 
-    public function table_reservations(){
-        return $this->hasMany(TableReservation::class, 'r_id', 'r_id');
+    public function chair_reservations(){
+        return $this->hasMany(ChairReservation::class, 'r_id', 'r_id');
     }
 
     public function transactions(){
