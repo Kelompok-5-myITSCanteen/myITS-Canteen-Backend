@@ -35,30 +35,51 @@ SQL;
     public static function procUpdateDailyRevenue()
     {
         return <<<SQL
-CREATE PROCEDURE proc_update_daily_revenue()
-BEGIN
-    REPLACE INTO daily_revenue_logs (log_date, total_revenue)
-    SELECT DATE(t_time), SUM(t_total)
-    FROM transactions
-    WHERE t_status = 'Selesai'
-    GROUP BY DATE(t_time);
-END;
-SQL;
+    CREATE PROCEDURE proc_update_daily_revenue(
+        IN p_t_id CHAR(36)
+    )
+    BEGIN
+        INSERT INTO daily_revenue_logs (log_date, v_id, total_revenue)
+        SELECT 
+            DATE(t.t_time) AS log_date,
+            m.v_id,
+            SUM(td.td_quantity * m.m_price) AS total_revenue
+        FROM transactions t
+        JOIN transaction_details td ON t.t_id = td.t_id
+        JOIN menus m ON td.m_id = m.m_id
+        WHERE t.t_id = p_t_id AND t.t_status = 'Selesai'
+        GROUP BY DATE(t.t_time), m.v_id
+        ON DUPLICATE KEY UPDATE 
+            total_revenue = total_revenue + VALUES(total_revenue);
+    END;
+    SQL;
     }
+    
 
     public static function procUpdateMonthlyRevenue()
     {
         return <<<SQL
-CREATE PROCEDURE proc_update_monthly_revenue()
-BEGIN
-    REPLACE INTO monthly_revenue_logs (log_month, total_revenue)
-    SELECT DATE_FORMAT(t_time, '%Y-%m'), SUM(t_total)
-    FROM transactions
-    WHERE t_status = 'Selesai'
-    GROUP BY DATE_FORMAT(t_time, '%Y-%m');
-END;
-SQL;
+    CREATE PROCEDURE proc_update_monthly_revenue(
+        IN p_t_id CHAR(36)
+    )
+    BEGIN
+        INSERT INTO monthly_revenue_logs (log_month, v_id, total_revenue)
+        SELECT 
+            DATE_FORMAT(t.t_time, '%Y-%m') AS log_month,
+            m.v_id,
+            SUM(td.td_quantity * m.m_price) AS total_revenue
+        FROM transactions t
+        JOIN transaction_details td ON t.t_id = td.t_id
+        JOIN menus m ON td.m_id = m.m_id
+        WHERE t.t_id = p_t_id AND t.t_status = 'Selesai'
+        GROUP BY DATE_FORMAT(t.t_time, '%Y-%m'), m.v_id
+        ON DUPLICATE KEY UPDATE 
+            total_revenue = total_revenue + VALUES(total_revenue);
+    END;
+    SQL;
     }
+    
+    
 
     public static function procReduceUserPoints()
     {
@@ -105,18 +126,21 @@ SQL;
     public static function procAddVendorEarnings()
     {
         return <<<SQL
-CREATE PROCEDURE proc_add_vendor_earnings(
-    IN p_t_id CHAR(36)
-)
-BEGIN
-    INSERT INTO vendor_earnings_logs (vendor_id, amount)
-    SELECT m.v_id, SUM(m.m_price * td.td_quantity)
-    FROM transaction_details td
-    JOIN menus m ON m.m_id = td.m_id
-    WHERE td.t_id = p_t_id
-    GROUP BY m.v_id;
-END;
-SQL;
+    CREATE PROCEDURE proc_add_vendor_earnings(
+        IN p_t_id CHAR(36)
+    )
+    BEGIN
+        INSERT INTO vendor_earnings_logs (vendor_id, amount)
+        SELECT m.v_id, SUM(m.m_price * td.td_quantity)
+        FROM transaction_details td
+        JOIN menus m ON m.m_id = td.m_id
+        WHERE td.t_id = p_t_id
+        GROUP BY m.v_id
+        ON DUPLICATE KEY UPDATE 
+            amount = amount + VALUES(amount);
+    END;
+    SQL;
     }
+    
 }
 

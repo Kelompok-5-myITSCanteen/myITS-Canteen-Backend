@@ -41,7 +41,7 @@ AFTER UPDATE ON transactions
 FOR EACH ROW
 BEGIN
     IF OLD.t_status <> 'Selesai' AND NEW.t_status = 'Selesai' THEN
-        CALL proc_update_daily_revenue();
+        CALL proc_update_daily_revenue(NEW.t_id);
     END IF;
 END;
 SQL;
@@ -55,7 +55,7 @@ AFTER UPDATE ON transactions
 FOR EACH ROW
 BEGIN
     IF OLD.t_status <> 'Selesai' AND NEW.t_status = 'Selesai' THEN
-        CALL proc_update_monthly_revenue();
+        CALL proc_update_monthly_revenue(NEW.t_id);
     END IF;
 END;
 SQL;

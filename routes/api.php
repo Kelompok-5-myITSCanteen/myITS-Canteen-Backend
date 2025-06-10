@@ -45,4 +45,8 @@ Route::prefix('canteens/{canteen}')->group(function () {
 // by vendor
 Route::prefix('vendors/{vendor}')->group(function () {
     Route::get('/menus', [MenuController::class, 'showMenuByVendor']);
+
+    // Fitur tambahan:
+    Route::get('/sales-last-week', [VendorController::class, 'salesLastWeek']);
+    Route::get('/top-menu-last-week', [VendorController::class, 'topMenuLastWeek']);
 });
