@@ -9,6 +9,7 @@ use App\Models\Menu;
 use App\Models\Chair;
 use App\Models\ChairTableView;
 use App\Models\Vendor;
+use App\Models\User;
 use App\Http\Controllers\TransactionDetailController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Requests\StoreTransactionRequest;
@@ -259,6 +260,8 @@ class TransactionController extends Controller
                     ->orderBy('tsl.changed_at', 'desc')
                     ->first();
 
+                $transactionUser = User::find($first->c_id);
+
                 return [
                     't_id' => $first->t_id,
                     't_time' => $first->t_time,
@@ -267,6 +270,8 @@ class TransactionController extends Controller
                     't_discount' => $first->t_discount,
                     't_payment' => $first->t_payment,
                     't_status' => $first->t_status,
+                    'c_id' => $transactionUser ? $transactionUser->id : null,
+                    'c_name' => $transactionUser ? $transactionUser->name : null,
                     'last_modified' => $lastLog ? $lastLog->changed_at : null,
 
                     'items' => $items->map(function ($item) {
@@ -357,6 +362,8 @@ class TransactionController extends Controller
                     ->orderBy('tsl.changed_at', 'desc')
                     ->first();
 
+                $transactionUser = User::find($first->c_id);
+
                 return [
                     't_id' => $first->t_id,
                     't_time' => $first->t_time,
@@ -365,6 +372,8 @@ class TransactionController extends Controller
                     't_discount' => $first->t_discount,
                     't_payment' => $first->t_payment,
                     't_status' => $first->t_status,
+                    'c_id' => $transactionUser ? $transactionUser->id : null,
+                    'c_name' => $transactionUser ? $transactionUser->name : null,
                     'last_modified' => $lastLog ? $lastLog->changed_at : null,
 
                     'items' => $items->map(function ($item) {
