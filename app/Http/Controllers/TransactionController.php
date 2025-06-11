@@ -222,7 +222,7 @@ class TransactionController extends Controller
                             ];
                         }),
 
-                        'reservation' => $transaction->is_dine ? null : [
+                        'reservation' => $transaction->t_is_dine ? [
                             'r_id' => $transaction->reservation->r_id,
                             'time_in' => $transaction->reservation->r_time_in,
                             'time_out' => $transaction->reservation->r_time_out,
@@ -234,7 +234,7 @@ class TransactionController extends Controller
                                     'ch_name' => $view->chair_name
                                 ];
                             })
-                        ]
+                        ] : null
                     ];
                 });
 
