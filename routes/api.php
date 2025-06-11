@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum', 'role:admin')->group(function () {
     Route::get('/admin', function (Request $request) {
         return response()->json(['message' => 'Welcome Admin!']);
     });
+    Route::get('/transactions/vendor', [TransactionController::class, 'getByVendor']);
     Route::resource('menus', MenuController::class);
     Route::post('menus/update/{menu}', [MenuController::class, 'updateMenu']);
     Route::get('/vendors/daily-data', [VendorController::class, 'getDailyData']);
