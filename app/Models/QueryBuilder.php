@@ -50,6 +50,7 @@ class QueryBuilder
                 r.r_id,
                 r.r_time_in,
                 r.r_time_out,
+                r.t_id,
                 ctv.ch_id,
                 ctv.chair_name
                 
