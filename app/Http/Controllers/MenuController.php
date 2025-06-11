@@ -86,10 +86,22 @@ class MenuController extends Controller
                 ], 404);
             }
 
-            // Get menus for this vendor only
+            // Get menus for this vendor only, including latest changed_at from menu_update_logs
             $menus = DB::table('menus')
-                ->where('v_id', $vendorId)
-                ->select('m_id', 'm_name', 'm_category', 'm_price', 'm_stock')
+                ->leftJoin(DB::raw('(
+                    SELECT m_id, MAX(changed_at) as last_modified
+                    FROM menu_update_logs
+                    GROUP BY m_id
+                ) as mul'), 'menus.m_id', '=', 'mul.m_id')
+                ->where('menus.v_id', $vendorId)
+                ->select(
+                    'menus.m_id',
+                    'menus.m_name',
+                    'menus.m_category',
+                    'menus.m_price',
+                    'menus.m_stock',
+                    'mul.last_modified'
+                )
                 ->get();
 
             return response()->json([
@@ -100,10 +112,11 @@ class MenuController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'failed',
-                'message' => 'Menu gagal ditemukan' . $e->getMessage(),
+                'message' => 'Menu gagal ditemukan. ' . $e->getMessage(),
             ], 500);
         }
     }
+
 
     /**
      * Store a newly created resource in storage.
