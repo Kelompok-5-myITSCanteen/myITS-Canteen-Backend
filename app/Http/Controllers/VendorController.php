@@ -24,7 +24,7 @@ class VendorController extends Controller
                 'message' => "Vendor berhasil ditemukan",
                 'data' => $vendors
             ], 200);
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             return response()->json([
                 'status' => 'failed',
                 'message' => "Vendor gagal ditemukan.",
@@ -32,10 +32,20 @@ class VendorController extends Controller
         }
     }
 
-    public function salesLastWeek(Vendor $vendor)
+    public function salesLastWeek()
     {
+        $user_id = auth()->user()->id;
+        $vendor = Vendor::where('c_id', $user_id)->first();
+
+        if (!$vendor) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => "Vendor tidak ditemukan.",
+            ], 404);
+        }
+
         $oneWeekAgo = Carbon::now()->subWeek();
-    
+
         // Ambil total penjualan per hari selama seminggu terakhir
         $salesPerDay = DB::table('transactions as t')
             ->join('transaction_details as td', 't.t_id', '=', 'td.t_id')
@@ -45,35 +55,51 @@ class VendorController extends Controller
             ->where('t.t_status', 'Selesai')
             ->select(
                 DB::raw('DATE(t.t_time) as date'),
-                DB::raw('SUM(td.td_quantity * m.m_price) as daily_total')
+                DB::raw('CAST(SUM(td.td_quantity * m.m_price) AS DECIMAL(10,2)) as daily_total')
             )
             ->groupBy(DB::raw('DATE(t.t_time)'))
             ->orderBy('date', 'asc')
-            ->get();
-    
+            ->get()
+            ->map(function ($sale) {
+                return [
+                    'date' => $sale->date,
+                    'daily_total' => (float) $sale->daily_total
+                ];
+            });
+
         // Total seluruh minggu
         $totalSales = $salesPerDay->sum('daily_total');
         return response()->json([
             'status' => 'success',
             'message' => "Penjualan last week berhasil ditemukan",
             'data' => [
-            'v_id'   => $vendor->v_id,
-            'v_name' => $vendor->v_name,
-            'period' => [
-                'from' => $oneWeekAgo->toDateString(),
-                'to'   => Carbon::now()->toDateString(),
-            ],
-            'total_sales_last_week' => (float) $totalSales,
-            'sales_per_day' => $salesPerDay,
+                'v_id'   => $vendor->v_id,
+                'v_name' => $vendor->v_name,
+                'period' => [
+                    'from' => $oneWeekAgo->toDateString(),
+                    'to'   => Carbon::now()->toDateString(),
+                ],
+                'total_sales_last_week' => (float) $totalSales,
+                'sales_per_day' => $salesPerDay,
             ]
         ], 200);
     }
-    
+
 
     public function topMenuLastWeek(Vendor $vendor)
     {
+        $user_id = auth()->user()->id;
+        $vendor = Vendor::where('c_id', $user_id)->first();
+
+        if (!$vendor) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => "Vendor tidak ditemukan.",
+            ], 404);
+        }
+
         $oneWeekAgo = Carbon::now()->subWeek();
-    
+
         $menus = DB::table('transaction_details as td')
             ->join('menus as m', 'td.m_id', '=', 'm.m_id')
             ->join('transactions as t', 'td.t_id', '=', 't.t_id')
@@ -89,9 +115,9 @@ class VendorController extends Controller
             ->orderByDesc('total_sold')
             ->limit(5)
             ->get();
-    
+
         $totalSoldAll = $menus->sum('total_sold');
-    
+
         $topMenus = $menus->map(function ($menu) use ($totalSoldAll) {
             return [
                 'menu_id'    => $menu->menu_id,
@@ -117,7 +143,7 @@ class VendorController extends Controller
             ]
         ], 200);
     }
-    
+
     /**
      * Show the form for creating a new resource.
      */
@@ -169,7 +195,7 @@ class VendorController extends Controller
     public function getDailyData(Request $request)
     {
         $user = $request->user();
-        
+
         if (!$user) {
             return response()->json([
                 'status' => 'failed',

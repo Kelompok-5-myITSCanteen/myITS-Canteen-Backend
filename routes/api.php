@@ -28,6 +28,12 @@ Route::middleware('auth:sanctum', 'role:admin')->group(function () {
     Route::resource('menus', MenuController::class);
     Route::post('menus/update/{menu}', [MenuController::class, 'updateMenu']);
     Route::get('/vendors/daily-data', [VendorController::class, 'getDailyData']);
+
+    Route::get('/sales-last-week', [VendorController::class, 'salesLastWeek']);
+    Route::get('/top-menu-last-week', [VendorController::class, 'topMenuLastWeek']);
+
+    Route::post('/accept-transaction/{transaction}', [TransactionController::class, 'acceptTransaction']);
+    Route::post('/reject-transaction/{transaction}', [TransactionController::class, 'rejectTransaction']);
 });
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -45,11 +51,6 @@ Route::prefix('canteens/{canteen}')->group(function () {
     Route::get('/available-chairs', [ChairTableViewController::class, 'getAvailableChairs']);
 });
 
-// by vendor
-Route::prefix('vendors/{vendor}')->group(function () {
-    Route::get('/menus', [MenuController::class, 'showMenuByVendor']);
 
-    // Fitur tambahan:
-    Route::get('/sales-last-week', [VendorController::class, 'salesLastWeek']);
-    Route::get('/top-menu-last-week', [VendorController::class, 'topMenuLastWeek']);
-});
+// by Vendor spesific
+Route::get('/vendors/menus', [MenuController::class, 'showMenuByVendor']);

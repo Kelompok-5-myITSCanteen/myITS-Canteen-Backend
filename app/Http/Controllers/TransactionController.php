@@ -399,8 +399,7 @@ class TransactionController extends Controller
                     })() : null
                 ];
             });
-
-
+            
             return response()->json([
                 'status' => 'success',
                 'message' => 'Transaksi vendor berhasil ditemukan.',
@@ -413,5 +412,45 @@ class TransactionController extends Controller
                 'message' => 'Gagal mendapatkan transaksi vendor.',
             ], 500);
         }
+    }
+
+    public function acceptTransaction(Transaction $transaction)
+    {
+        if ($transaction->t_status !== 'Menunggu Konfirmasi') {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Transaksi tidak dalam status yang dapat diterima.',
+            ], 400);
+        }
+
+        $transaction->t_status = 'Selesai';
+        $transaction->save();
+
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Transaksi berhasil diterima.',
+            'data' => $transaction
+        ], 200);
+    }
+
+    public function rejectTransaction(Transaction $transaction)
+    {
+        if ($transaction->t_status !== 'Menunggu Konfirmasi') {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Transaksi tidak dalam status yang dapat ditolak.',
+            ], 400);
+        }
+
+   
+        $transaction->t_status = 'Ditolak';
+        $transaction->save();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Transaksi berhasil ditolak.',
+            'data' => $transaction
+        ], 200);
+
     }
 }
