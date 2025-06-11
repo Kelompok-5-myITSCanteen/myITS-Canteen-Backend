@@ -300,7 +300,7 @@ class TransactionController extends Controller
                         ];
                     })() : null
                 ];
-            });
+            })->values();
 
 
             return response()->json([
@@ -398,7 +398,7 @@ class TransactionController extends Controller
                         ];
                     })() : null
                 ];
-            });
+            })->values();
             
             return response()->json([
                 'status' => 'success',
