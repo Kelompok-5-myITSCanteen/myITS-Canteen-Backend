@@ -7,6 +7,7 @@ use App\Http\Requests\StoreVendorRequest;
 use App\Http\Requests\UpdateVendorRequest;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;   
 
 class VendorController extends Controller
 {
@@ -29,6 +30,55 @@ class VendorController extends Controller
                 'message' => "Vendor gagal ditemukan.",
             ], 500);
         }
+    }
+
+    public function salesReport(Vendor $vendor, Request $request)
+    {
+        $view = $request->query('view', 'weekly');
+
+        if ($view === 'monthly') {
+            $rows = DB::table('monthly_revenue_logs')
+                ->where('v_id', $vendor->v_id)
+                ->orderBy('log_month', 'asc')
+                ->get(['log_month', 'total_revenue']);
+
+            $records = $rows->map(function($r) {
+                return [
+                    'month'         => $r->log_month,
+                    'total_revenue' => (float) $r->total_revenue,
+                ];
+            });
+
+            $message = "Monthly sales report berhasil ditemukan";
+        } else {
+            // default: weekly
+            $rows = DB::table('weekly_revenue_logs')
+                ->where('v_id', $vendor->v_id)
+                ->orderBy('log_week_start', 'asc')
+                ->get(['log_week_start', 'total_revenue']);
+
+            $records = $rows->map(function($r) {
+                $start = Carbon::parse($r->log_week_start);
+                return [
+                    'week_start'    => $start->toDateString(),
+                    'week_end'      => $start->addDays(6)->toDateString(),
+                    'total_revenue' => (float) $r->total_revenue,
+                ];
+            });
+
+            $message = "Weekly sales report berhasil ditemukan";
+        }
+
+        return response()->json([
+            'status'  => 'success',
+            'message' => $message,
+            'data'    => [
+                'v_id'    => $vendor->v_id,
+                'v_name'  => $vendor->v_name,
+                'view'    => $view,
+                'records' => $records,
+            ],
+        ], 200);
     }
 
     public function salesLastWeek(Vendor $vendor)

@@ -49,4 +49,5 @@ Route::prefix('vendors/{vendor}')->group(function () {
     // Fitur tambahan:
     Route::get('/sales-last-week', [VendorController::class, 'salesLastWeek']);
     Route::get('/top-menu-last-week', [VendorController::class, 'topMenuLastWeek']);
+    Route::get('/sales-report', [VendorController::class, 'salesReport']);
 });

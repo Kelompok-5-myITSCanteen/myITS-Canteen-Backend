@@ -15,6 +15,7 @@ return new class extends Migration
         DB::statement(TriggerBuilderTables::createMenuUpdateLogTable());
         DB::statement(TriggerBuilderTables::createTransactionStatusLogTable());
         DB::statement(TriggerBuilderTables::createDailyRevenueLogTable());
+        DB::statement(TriggerBuilderTables::createWeeklyRevenueLogTable());
         DB::statement(TriggerBuilderTables::createMonthlyRevenueLogTable());
         DB::statement(TriggerBuilderTables::createUserPointsLogTable());
         DB::statement(TriggerBuilderTables::createVendorEarningsLogTable());
@@ -28,6 +29,9 @@ return new class extends Migration
 
         DB::statement('DROP PROCEDURE IF EXISTS proc_update_daily_revenue');
         DB::statement(TriggerBuilderProcedures::procUpdateDailyRevenue());
+
+        DB::statement('DROP PROCEDURE IF EXISTS proc_update_weekly_revenue');
+        DB::statement(TriggerBuilderProcedures::procUpdateWeeklyRevenue());
 
         DB::statement('DROP PROCEDURE IF EXISTS proc_update_monthly_revenue');
         DB::statement(TriggerBuilderProcedures::procUpdateMonthlyRevenue());
@@ -53,6 +57,9 @@ return new class extends Migration
 
         DB::statement('DROP TRIGGER IF EXISTS tr_after_transaction_insert_daily');
         DB::statement(TriggerBuilderTriggers::triggerAfterTransactionInsertDaily());
+
+        DB::statement('DROP TRIGGER IF EXISTS tr_after_transaction_insert_weekly');
+        DB::statement(TriggerBuilderTriggers::triggerAfterTransactionInsertWeekly());
 
         DB::statement('DROP TRIGGER IF EXISTS tr_after_transaction_insert_monthly');
         DB::statement(TriggerBuilderTriggers::triggerAfterTransactionInsertMonthly());
