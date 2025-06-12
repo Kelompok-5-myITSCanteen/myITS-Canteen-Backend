@@ -7,6 +7,7 @@ use App\Http\Requests\StoreVendorRequest;
 use App\Http\Requests\UpdateVendorRequest;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class VendorController extends Controller
 {
