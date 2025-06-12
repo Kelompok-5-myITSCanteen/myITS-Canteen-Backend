@@ -22,10 +22,11 @@ class UpdateMenuRequest extends FormRequest
      */
     public function rules(): array
     {
+        $menu = $this->route('menu');
         return [
-            'm_name' => 'sometimes|string|max:60|unique:menus,m_name,' . $this->route('menu')->m_id . ',m_id',
+            'm_name' => 'sometimes|string|max:60|unique:menus,m_name,' . $menu->m_id . ',m_id,v_id,' . $menu->v_id,
             'm_price' => 'sometimes|numeric|min:0|max:1000000',
-            'm_image' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            // 'm_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'm_category' => 'sometimes|string|in:Makanan,Minuman,Snack',
             'm_stock' => 'sometimes|integer|min:1|max:10000',
         ];

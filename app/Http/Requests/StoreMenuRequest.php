@@ -22,10 +22,11 @@ class StoreMenuRequest extends FormRequest
      */
     public function rules(): array
     {
+        $vendorId = \App\Models\Vendor::where('c_id', auth()->user()->id)->value('v_id');
         return [
-            'm_name'     => 'required|string|max:60|unique:menus,m_name',
+            'm_name'     => 'required|string|max:60|unique:menus,m_name,NULL,m_id,v_id,' . $vendorId,
             'm_price'    => 'required|numeric|min:0|max:1000000',
-            'm_image'    => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'm_image'    => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'm_category' => 'required|string|in:Makanan,Minuman,Snack',
             'm_stock'    => 'required|integer|min:1|max:10000',
         ];

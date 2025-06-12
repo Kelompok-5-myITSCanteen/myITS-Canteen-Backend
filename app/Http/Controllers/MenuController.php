@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\Can;
+use Illuminate\Support\Facades\Log;
 
 
 class MenuController extends Controller
@@ -26,7 +27,7 @@ class MenuController extends Controller
                 ->join('vendors', 'menus.v_id', '=', 'vendors.v_id')
                 ->join('canteens', 'vendors.k_id', '=', 'canteens.k_id')
                 ->where('vendors.k_id', $canteen->k_id)
-                ->select('menus.m_id', 'menus.m_name', 'menus.m_category', 'menus.m_price', 'menus.m_stock')
+                ->select('menus.m_id', 'menus.m_name', 'menus.m_category', 'menus.m_price', 'menus.m_stock', 'menus.m_image')
                 ->get();
             if ($menus->isEmpty()) {
                 return response()->json([
@@ -47,12 +48,23 @@ class MenuController extends Controller
         }
     }
 
-    public function showMenuByVendor(Vendor $vendor)
+    public function showMenuByVendor(Request $request)
     {
         try {
-            $menus = Menu::where('v_id', $vendor->v_id)
-                ->with('vendors')
+            $vendorName = $request->input('v_name');
+
+            if (!$vendorName) {
+                return response()->json([
+                    'status' => 'failed',
+                    'message' => "Nama vendor tidak boleh kosong",
+                    'data' => $request->all()
+                ], 400);
+            }
+
+            $menus = Menu::join('vendors', 'menus.v_id', '=', 'vendors.v_id')
+                ->where('vendors.v_name', $vendorName)
                 ->get();
+
             if ($menus->isEmpty()) {
                 return response()->json([
                     'status' => 'failed',
@@ -68,7 +80,7 @@ class MenuController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'failed',
-                'message' => "Menu gagal ditemukan",
+                'message' => "Menu gagal ditemukan" . $e->getMessage(),
             ], 500);
         }
     }
@@ -100,6 +112,7 @@ class MenuController extends Controller
                     'menus.m_category',
                     'menus.m_price',
                     'menus.m_stock',
+                    'menus.m_image',
                     'mul.last_modified'
                 )
                 ->get();
@@ -202,7 +215,6 @@ class MenuController extends Controller
                 'status' => 'success',
                 'message' => "Menu berhasil diupdate",
                 'data' => $menu,
-                'request' => $request->all(),
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
