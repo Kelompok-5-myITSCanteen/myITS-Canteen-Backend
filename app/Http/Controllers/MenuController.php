@@ -215,7 +215,6 @@ class MenuController extends Controller
                 'status' => 'success',
                 'message' => "Menu berhasil diupdate",
                 'data' => $menu,
-                'request' => $request->all(),
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
