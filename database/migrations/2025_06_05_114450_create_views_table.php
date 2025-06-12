@@ -15,6 +15,10 @@ return new class extends Migration
     {
         DB::statement(QueryBuilder::initChairTableView());
         DB::statement(QueryBuilder::initTransactionMenuView());
+        DB::statement(QueryBuilder::initTransactionReservationView());
+        DB::statement(QueryBuilder::initVendorTransactionCountView());
+        DB::statement(QueryBuilder::initVendorPurchasedMenusView());
+        DB::statement(QueryBuilder::initVendorUniqueCustomerCountView());
         DB::statement(QueryBuilder::initVendorEarningsView());
     }
 

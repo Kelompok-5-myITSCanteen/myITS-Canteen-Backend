@@ -23,11 +23,24 @@ class StoreMenuRequest extends FormRequest
     public function rules(): array
     {
         return [
-        'm_name'     => 'required|string|max:60|unique:menus,m_name',
-        'm_price'    => 'required|numeric|min:0|max:1000000',
-        'm_image'    => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        'm_category' => 'required|string|in:makanan,minuman,snack',
-        'm_stock'    => 'required|integer|min:1|max:10000',
-    ];
+            'm_name'     => 'required|string|max:60|unique:menus,m_name',
+            'm_price'    => 'required|numeric|min:0|max:1000000',
+            'm_image'    => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'm_category' => 'required|string|in:Makanan,Minuman,Snack',
+            'm_stock'    => 'required|integer|min:1|max:10000',
+        ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $data = [];
+        // Capitalize first letter in each word
+        if ($this->has('m_name')) {
+            $data['m_name'] = ucwords(strtolower($this->m_name));
+        }
+        if ($this->has('m_category')) {
+            $data['m_category'] = ucfirst(strtolower($this->m_category));
+        }
+        $this->merge($data);
     }
 }
