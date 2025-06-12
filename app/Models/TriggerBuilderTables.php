@@ -49,7 +49,19 @@ SQL;
     SQL;
     }
     
-    
+    public static function createWeeklyRevenueLogTable()
+    {
+        return <<<SQL
+    CREATE TABLE IF NOT EXISTS weekly_revenue_logs (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        log_week_start CHAR(10) NOT NULL,          -- tanggal Senin sebagai penanda minggu
+        v_id CHAR(36) NOT NULL,
+        total_revenue DECIMAL(16,2) NOT NULL,
+        recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE (log_week_start, v_id)
+    );
+    SQL;
+    }
 
     // Log pendapatan bulanan: matematika seperti view
     public static function createMonthlyRevenueLogTable()

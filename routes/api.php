@@ -31,6 +31,7 @@ Route::middleware('auth:sanctum', 'role:admin')->group(function () {
 
     Route::get('/sales-last-week', [VendorController::class, 'salesLastWeek']);
     Route::get('/top-menu-last-week', [VendorController::class, 'topMenuLastWeek']);
+    Route::get('/sales-report', [VendorController::class, 'salesReport']);
 
     Route::post('/accept-transaction/{transaction}', [TransactionController::class, 'acceptTransaction']);
     Route::post('/reject-transaction/{transaction}', [TransactionController::class, 'rejectTransaction']);
@@ -51,6 +52,4 @@ Route::prefix('canteens/{canteen}')->group(function () {
     Route::get('/available-chairs', [ChairTableViewController::class, 'getAvailableChairs']);
 });
 
-
-// by Vendor spesific
 Route::get('/vendors/menus', [MenuController::class, 'showMenuByVendor']);

@@ -47,6 +47,20 @@ END;
 SQL;
     }
 
+    public static function triggerAfterTransactionInsertWeekly()
+    {
+        return <<<SQL
+    CREATE TRIGGER tr_after_transaction_insert_weekly
+    AFTER UPDATE ON transactions
+    FOR EACH ROW
+    BEGIN
+        IF OLD.t_status <> 'Selesai' AND NEW.t_status = 'Selesai' THEN
+            CALL proc_update_weekly_revenue(NEW.t_id);
+        END IF;
+    END;
+    SQL;
+    }
+
     public static function triggerAfterTransactionInsertMonthly()
     {
         return <<<SQL

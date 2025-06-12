@@ -55,6 +55,30 @@ SQL;
     SQL;
     }
     
+    public static function procUpdateWeeklyRevenue()
+    {
+        return <<<SQL
+    CREATE PROCEDURE proc_update_weekly_revenue(
+        IN p_t_id CHAR(36)
+    )
+    BEGIN
+        INSERT INTO weekly_revenue_logs (log_week_start, v_id, total_revenue)
+        SELECT
+            DATE_SUB(DATE(t.t_time), INTERVAL WEEKDAY(DATE(t.t_time)) DAY) AS log_week_start,
+            m.v_id,
+            SUM(td.td_quantity * m.m_price) AS total_revenue
+        FROM transactions t
+        JOIN transaction_details td ON td.t_id = t.t_id
+        JOIN menus m               ON m.m_id = td.m_id
+        WHERE t.t_id = p_t_id
+        AND t.t_status = 'Selesai'
+        GROUP BY log_week_start, m.v_id
+        ON DUPLICATE KEY UPDATE
+            total_revenue = total_revenue + VALUES(total_revenue);
+    END;
+    SQL;
+    }
+
 
     public static function procUpdateMonthlyRevenue()
     {
