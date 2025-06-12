@@ -36,6 +36,8 @@ class VendorController extends Controller
     {
         $view = $request->query('view', 'weekly');
 
+        $vendor = Vendor::where('c_id', auth()->user()->id)->first();
+
         if ($view === 'monthly') {
             $rows = DB::table('monthly_revenue_logs')
                 ->where('v_id', $vendor->v_id)
