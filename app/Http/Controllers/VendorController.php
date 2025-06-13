@@ -7,6 +7,7 @@ use App\Http\Requests\StoreVendorRequest;
 use App\Http\Requests\UpdateVendorRequest;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class VendorController extends Controller
 {
@@ -34,6 +35,8 @@ class VendorController extends Controller
     public function salesReport(Vendor $vendor, Request $request)
     {
         $view = $request->query('view', 'weekly');
+
+        $vendor = Vendor::where('c_id', auth()->user()->id)->first();
 
         if ($view === 'monthly') {
             $rows = DB::table('monthly_revenue_logs')
