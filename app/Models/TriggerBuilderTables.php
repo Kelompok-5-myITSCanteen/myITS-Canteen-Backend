@@ -63,7 +63,6 @@ SQL;
     SQL;
     }
 
-    // Log pendapatan bulanan: matematika seperti view
     public static function createMonthlyRevenueLogTable()
     {
         return <<<SQL
@@ -86,7 +85,8 @@ CREATE TABLE IF NOT EXISTS user_points_logs (
     user_id CHAR(36) NOT NULL,
     change_amount INT NOT NULL,
     event VARCHAR(60) NOT NULL,
-    changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    related_t_id CHAR(36) NOT NULL
 );
 SQL;
     }

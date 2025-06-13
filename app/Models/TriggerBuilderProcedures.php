@@ -109,12 +109,12 @@ SQL;
     {
         return <<<SQL
 CREATE PROCEDURE proc_reduce_user_points(
-    IN p_user_id CHAR(36), IN p_discount DECIMAL(12,2)
+    IN p_user_id CHAR(36), IN p_discount DECIMAL(12,2), IN p_t_id CHAR(36)
 )
 BEGIN
     UPDATE users SET point = point - FLOOR(p_discount) WHERE id = p_user_id;
-    INSERT INTO user_points_logs (user_id, change_amount, event)
-    VALUES (p_user_id, -FLOOR(p_discount), 'discount_applied');
+    INSERT INTO user_points_logs (user_id, change_amount, event, related_t_id)
+    VALUES (p_user_id, -FLOOR(p_discount), 'discount_applied', p_t_id);
 END;
 SQL;
     }
@@ -122,16 +122,48 @@ SQL;
     public static function procAddUserPoints()
     {
         return <<<SQL
-CREATE PROCEDURE proc_add_user_points(
-    IN p_user_id CHAR(36)
-)
-BEGIN
-    UPDATE users SET point = point + 1 WHERE id = p_user_id;
-    INSERT INTO user_points_logs (user_id, change_amount, event)
-    VALUES (p_user_id, 1, 'transaction_complete');
-END;
-SQL;
+    CREATE PROCEDURE proc_add_user_points(
+        IN p_t_id CHAR(36)
+    )
+    BEGIN
+        DECLARE v_user_id CHAR(36);
+        DECLARE v_subtotal DECIMAL(16,2);
+        DECLARE v_discount DECIMAL(12,2);
+        DECLARE v_net DECIMAL(16,2);
+        DECLARE v_points INT;
+
+        SELECT t.c_id,
+               SUM(td.td_quantity * m.m_price),
+               COALESCE(t.t_discount, 0)
+        INTO v_user_id, v_subtotal, v_discount
+        FROM transactions t
+        JOIN transaction_details td ON td.t_id = t.t_id
+        JOIN menus m               ON m.m_id = td.m_id
+        WHERE t.t_id = p_t_id
+          AND t.t_status = 'Selesai'
+        GROUP BY t.c_id, t.t_discount;
+
+        SET v_points = FLOOR((v_subtotal - v_discount) * 0.05);
+
+        UPDATE users
+        SET point = point + v_points
+        WHERE id = v_user_id;
+
+        INSERT INTO user_points_logs (
+            user_id,
+            change_amount,
+            event,
+            related_t_id
+        ) VALUES (
+            v_user_id,
+            v_points,
+            'add_point',
+            p_t_id
+        );
+    END;
+    SQL;
     }
+    
 
     public static function procReduceStock()
     {
