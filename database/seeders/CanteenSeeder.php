@@ -13,6 +13,6 @@ class CanteenSeeder extends Seeder
      */
     public function run(): void
     {
-        Canteen::factory()->count(10)->create();
+        Canteen::factory()->count(20)->create();
     }
 }

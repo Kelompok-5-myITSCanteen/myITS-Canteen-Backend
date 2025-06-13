@@ -20,8 +20,29 @@ class CanteenFactory extends Factory
      */
     public function definition(): array
     {
+        $canteenNames = [
+        'Kantin Teknik Sipil',
+        'Kantin Teknik Mesin',
+        'Kantin Teknik Elektro',
+        'Kantin Arsitektur',
+        'Kantin Teknik Kimia',
+        'Kantin Matematika',
+        'Kantin Fisika',
+        'Kantin Biologi',
+        'Kantin Teknik Material',
+        'Kantin Teknik Industri',
+        'Kantin Teknik Perkapalan',
+        'Kantin Teknik Kelautan',
+        'Kantin Teknik Lingkungan',
+        'Kantin Perencanaan Wilayah',
+        'Kantin Sains Data',
+        'Kantin Teknologi Informasi',
+        'Kantin Sistem Informasi',
+        'Kantin Desain Komunikasi',
+        'Kantin Pusat ITS'
+    ];
         return [
-            'k_name' => $this->faker->company(),
+            'k_name' => $this->faker->unique()->randomElement($canteenNames),
             'k_address' => $this->faker->address(),
         ];
     }
