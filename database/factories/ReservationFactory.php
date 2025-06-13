@@ -17,7 +17,7 @@ class ReservationFactory extends Factory
      */
     public function definition(): array
     {
-        $timeIn = $this->faker->dateTimeBetween('-1 year', 'now');
+        $timeIn = $this->faker->dateTimeBetween('-5 month', 'now');
         $timeOut = Carbon::parse($timeIn)->addHour(); // Add 1 hour
 
         return [

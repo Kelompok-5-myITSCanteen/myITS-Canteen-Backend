@@ -59,11 +59,11 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Create additional canteens for variety
-        $canteens = Canteen::factory(3)->create();
+        $canteens = Canteen::factory(10)->create();
         $allCanteens = collect([$informatikaCanteen])->concat($canteens);
 
         // Create vendors
-        $vendors = Vendor::factory(15)->create([
+        $vendors = Vendor::factory(10)->create([
             'k_id' => $informatikaCanteen->k_id,
         ]);
 
@@ -99,16 +99,8 @@ class DatabaseSeeder extends Seeder
         $allUsers = User::all();
         $transactions = collect();
 
-        // Create regular transactions
-        for ($i = 0; $i < 40; $i++) {
-            $transaction = Transaction::factory()->create([
-                'c_id' => $allUsers->random()->id,
-            ]);
-            $transactions->push($transaction);
-        }
-
         // Create transactions for test vendor
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 60; $i++) {
             $transaction = Transaction::factory()->create([
                 'c_id' => $testVendor->c_id,
             ]);
