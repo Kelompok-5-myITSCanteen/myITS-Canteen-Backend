@@ -12,12 +12,19 @@ return new class extends Migration
     public function up(): void
     {
         // Tables
+        DB::statement('DROP TABLE IF EXISTS log_menu_update');
         DB::statement(TriggerBuilderTables::createMenuUpdateLogTable());
+        DB::statement('DROP TABLE IF EXISTS log_transaction_status');
         DB::statement(TriggerBuilderTables::createTransactionStatusLogTable());
+        DB::statement('DROP TABLE IF EXISTS daily_revenue_logs');
         DB::statement(TriggerBuilderTables::createDailyRevenueLogTable());
+        DB::statement('DROP TABLE IF EXISTS weekly_revenue_logs');
         DB::statement(TriggerBuilderTables::createWeeklyRevenueLogTable());
+        DB::statement('DROP TABLE IF EXISTS monthly_revenue_logs');
         DB::statement(TriggerBuilderTables::createMonthlyRevenueLogTable());
+        DB::statement('DROP TABLE IF EXISTS user_points_logs');
         DB::statement(TriggerBuilderTables::createUserPointsLogTable());
+        DB::statement('DROP TABLE IF EXISTS vendor_earnings_logs');
         DB::statement(TriggerBuilderTables::createVendorEarningsLogTable());
 
         // Procedures

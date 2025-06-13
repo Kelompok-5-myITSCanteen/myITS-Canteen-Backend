@@ -78,6 +78,7 @@ class TriggerBuilderTriggers
     public static function triggerAfterTransactionDiscount()
     {
         return <<<SQL
+<<<<<<< HEAD
         CREATE TRIGGER tr_after_transaction_discount
         AFTER UPDATE ON transactions
         FOR EACH ROW
@@ -87,11 +88,23 @@ class TriggerBuilderTriggers
             END IF;
         END;
         SQL;
+=======
+CREATE TRIGGER tr_after_transaction_discount
+AFTER UPDATE ON transactions
+FOR EACH ROW
+BEGIN
+    IF OLD.t_status <> 'Selesai' AND NEW.t_status = 'Selesai' AND NEW.t_discount > 0 THEN
+        CALL proc_reduce_user_points(NEW.c_id, NEW.t_discount, NEW.t_id);
+    END IF;
+END;
+SQL;
+>>>>>>> a38b11d495cff548989a832e5c2ae13f2ebd568f
     }
 
     public static function triggerAfterTransactionAddPoints()
     {
         return <<<SQL
+<<<<<<< HEAD
         CREATE TRIGGER tr_after_transaction_add_points
         AFTER UPDATE ON transactions
         FOR EACH ROW
@@ -101,7 +114,19 @@ class TriggerBuilderTriggers
             END IF;
         END;
         SQL;
+=======
+    CREATE TRIGGER tr_after_transaction_add_points
+    AFTER UPDATE ON transactions
+    FOR EACH ROW
+    BEGIN
+        IF OLD.t_status <> 'Selesai' AND NEW.t_status = 'Selesai' THEN
+            CALL proc_add_user_points(NEW.t_id);
+        END IF;
+    END;
+    SQL;
+>>>>>>> a38b11d495cff548989a832e5c2ae13f2ebd568f
     }
+    
 
     public static function triggerAfterTransactionVendorEarnings()
     {
