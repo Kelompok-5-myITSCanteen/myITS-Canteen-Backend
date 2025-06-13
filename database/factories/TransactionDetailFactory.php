@@ -17,7 +17,9 @@ class TransactionDetailFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            't_id' => \App\Models\Transaction::factory(),
+            'm_id' => \App\Models\Menu::factory(),
+            'td_quantity' => $this->faker->numberBetween(1, 10),
         ];
     }
 }

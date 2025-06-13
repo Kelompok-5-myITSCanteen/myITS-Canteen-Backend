@@ -17,7 +17,8 @@ class ChairReservationFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'ch_id' => \App\Models\Chair::factory(),
+            'r_id' => \App\Models\Reservation::factory(),
         ];
     }
 }
