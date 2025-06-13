@@ -14,11 +14,8 @@ use App\Models\Reservation;
 use App\Models\ChairReservation;
 
 use Spatie\Permission\Models\Role;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use App\Models\QueryBuilder;
-use Illuminate\Validation\Rules\Can;
 
 class DatabaseSeeder extends Seeder
 {
@@ -27,99 +24,133 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Role::create(['name' => 'admin']);
-        Role::create(['name' => 'user']);
-        User::factory(30)->create();
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         
-        User::factory()->create([
+        // Create roles
+        $adminRole = Role::firstOrCreate(['name' => 'admin']);
+        $userRole = Role::firstOrCreate(['name' => 'user']);
+
+        // Create regular users
+        $users = User::factory(20)->create();
+        foreach ($users as $user) {
+            $user->assignRole('user');
+        }
+
+        // Create test user
+        $testUser = User::factory()->create([
             'name' => 'User Tester',
             'email' => 'user@gmail.com',
             'password' => bcrypt('password'),
             'point' => 1000,
-        ])->assignRole('user');
+        ]);
+        $testUser->assignRole('user');
 
-        // Create a vendor account for testing
-        $VendorAccount = User::factory()->create([
+        // Create vendor account
+        $vendorAccount = User::factory()->create([
             'name' => 'Vendor',
             'email' => 'vendor@gmail.com',
             'password' => bcrypt('password'),
-        ])->assignRole('admin');
-        $InformatikaCanteen = Canteen::factory()->create([
+        ]);
+        $vendorAccount->assignRole('admin');
+
+        // Create Informatika canteen
+        $informatikaCanteen = Canteen::factory()->create([
             'k_name' => 'Kantin Informatika ITS',
         ]);
-        $TestVendor = Vendor::factory()->create([
+
+        // Create additional canteens for variety
+        $canteens = Canteen::factory(3)->create();
+        $allCanteens = collect([$informatikaCanteen])->concat($canteens);
+
+        // Create vendors
+        $vendors = Vendor::factory(15)->create([
+            'k_id' => $informatikaCanteen->k_id,
+        ]);
+
+        // Create test vendor
+        $testVendor = Vendor::factory()->create([
             'v_name' => 'Vendor Tester',
-            'k_id' => $InformatikaCanteen->id, 
-            'c_id' => $VendorAccount->id,
+            'k_id' => $informatikaCanteen->k_id,
+            'c_id' => $vendorAccount->id,
         ]);
 
-        // Create 80 transactions for testing
-        for ($i = 0; $i < 50; $i++) {
+        $allVendors = $vendors->concat([$testVendor]);
+
+        // Create menus for each vendor
+        foreach ($allVendors as $vendor) {
+            Menu::factory(rand(5, 15))->create([
+                'v_id' => $vendor->v_id,
+            ]);
+        }
+
+        // Create tables
+        $tables = Table::factory(20)->create();
+
+        // Create chairs for each canteen
+        foreach ($allCanteens as $canteen) {
+            Chair::factory(rand(10, 20))->create([
+                'k_id' => $canteen->k_id,
+            ]);
+        }
+
+        $allChairs = Chair::all();
+
+        // Create transactions with proper relationships
+        $allUsers = User::all();
+        $transactions = collect();
+
+        // Create regular transactions
+        for ($i = 0; $i < 40; $i++) {
             $transaction = Transaction::factory()->create([
-                'u_id' => User::inRandomOrder()->first()->id,
-                'v_id' => $TestVendor->id,
+                'c_id' => $allUsers->random()->id,
             ]);
-            // Create 3 transaction details for each transaction
-            for ($j = 0; $j < 3; $j++) {
+            $transactions->push($transaction);
+        }
+
+        // Create transactions for test vendor
+        for ($i = 0; $i < 10; $i++) {
+            $transaction = Transaction::factory()->create([
+                'c_id' => $testVendor->c_id,
+            ]);
+            $transactions->push($transaction);
+        }
+
+        // Create transaction details for each transaction
+        $allMenus = Menu::all();
+        foreach ($transactions as $transaction) {
+            $detailCount = rand(1, 4);
+            for ($j = 0; $j < $detailCount; $j++) {
                 TransactionDetail::factory()->create([
-                    't_id' => $transaction->id,
-                    'm_id' => Menu::inRandomOrder()->first()->id,
+                    't_id' => $transaction->t_id,
+                    'm_id' => $allMenus->random()->m_id,
                 ]);
             }
         }
-        // Create 20 reservations for testing
+
+        // Create reservations
+        $reservations = collect();
         for ($i = 0; $i < 20; $i++) {
-            $reservation = Reservation::factory()->create([
-                'u_id' => User::inRandomOrder()->first()->id,
-                'k_id' => Canteen::inRandomOrder()->first()->id,
-            ]);
-            // Create 2 chair reservations for each reservation
-            for ($j = 0; $j < 2; $j++) {
-                ChairReservation::factory()->create([
-                    'r_id' => $reservation->id,
-                    't_id' => Table::inRandomOrder()->first()->id,
-                ]);
+            $reservation = Reservation::factory()->create();
+            $reservations->push($reservation);
+        }
+
+        // Create chair reservations for each reservation
+        foreach ($reservations as $reservation) {
+            $chairCount = rand(1, 3);
+            $availableChairs = $allChairs->where('k_id', $reservation->k_id);
+            
+            if ($availableChairs->count() > 0) {
+                $selectedChairs = $availableChairs->random(min($chairCount, $availableChairs->count()));
+                
+                foreach ($selectedChairs as $chair) {
+                    ChairReservation::factory()->create([
+                        'r_id' => $reservation->r_id,
+                        'chair_id' => $chair->chair_id,
+                    ]);
+                }
             }
         }
 
-
-        User::factory(30)->create();
-        $InformatikaCanteen = Canteen::factory()->create([
-            'k_name' => 'Kantin Informatika ITS',
-        ]);
-
-        for ($i = 0; $i < 19; $i++) {
-            $canteen = canteen::factory()->create();
-
-            // create 6 tables for each canteen
-            for ($j = 0; $j < 6; $j++) {
-                $table = Table::factory()->create([
-                    'k_id' => $canteen->k_id,
-                ]);
-
-                // create 4 chairs for each table
-                for ($k = 0; $k < 4; $k++) {
-                    Chair::factory()->create([
-                        't_id' => $table->t_id,
-                    ]);
-                }
-            }
-
-            // create 2 vendors for each canteen
-            for ($j = 0; $j < 2; $j++) {
-                $vendor = Vendor::factory()->create([
-                    'k_id' => $canteen->k_id,
-                ]);
-
-                // create 5 menus for each vendor
-                for ($k = 0; $k < 5; $k++) {
-                    Menu::factory()->create([
-                        'v_id' => $vendor->v_id,
-                    ]);
-                }
-            }
-        }   
-
-
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

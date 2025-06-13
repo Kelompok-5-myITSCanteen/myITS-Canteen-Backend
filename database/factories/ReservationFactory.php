@@ -21,8 +21,8 @@ class ReservationFactory extends Factory
         $timeOut = Carbon::parse($timeIn)->addHour(); // Add 1 hour
 
         return [
-            't_time_in' => $timeIn,
-            't_time_out' => $timeOut,
+            'r_time_in' => $timeIn,
+            'r_time_out' => $timeOut,
             't_id' => \App\Models\Transaction::factory(),
         ];
     }

@@ -80,7 +80,6 @@ class TriggerBuilderTables
     public static function createUserPointsLogTable()
     {
         return <<<SQL
-<<<<<<< HEAD
         CREATE TABLE IF NOT EXISTS user_points_logs (
             id INT AUTO_INCREMENT PRIMARY KEY,
             user_id CHAR(36) NOT NULL,
@@ -89,17 +88,6 @@ class TriggerBuilderTables
             changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
         SQL;
-=======
-CREATE TABLE IF NOT EXISTS user_points_logs (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id CHAR(36) NOT NULL,
-    change_amount INT NOT NULL,
-    event VARCHAR(60) NOT NULL,
-    changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    related_t_id CHAR(36) NOT NULL
-);
-SQL;
->>>>>>> a38b11d495cff548989a832e5c2ae13f2ebd568f
     }
 
     public static function createVendorEarningsLogTable()
