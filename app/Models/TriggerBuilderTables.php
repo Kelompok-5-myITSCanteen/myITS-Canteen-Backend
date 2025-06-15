@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS menu_update_logs (
     new_price DECIMAL(12,2),
     old_stock INT,
     new_stock INT,
-    changed_at TIMESTAMP DEFAULT (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Jakarta')
+    changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 SQL;
     }
@@ -30,7 +30,7 @@ SQL;
     t_id CHAR(36) NOT NULL,
     old_status VARCHAR(60),
     new_status VARCHAR(60),
-    changed_at TIMESTAMP DEFAULT (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Jakarta')
+    changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
     SQL;
     }
@@ -43,7 +43,7 @@ SQL;
         log_date CHAR(10) NOT NULL,
         v_id CHAR(36) NOT NULL,
         total_revenue DECIMAL(14,2) NOT NULL,
-        recorded_at TIMESTAMP DEFAULT (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Jakarta'),
+        recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         UNIQUE (log_date, v_id)
     );
     SQL;
@@ -57,7 +57,7 @@ SQL;
         log_week_start CHAR(10) NOT NULL,     
         v_id CHAR(36) NOT NULL,
         total_revenue DECIMAL(16,2) NOT NULL,
-        recorded_at TIMESTAMP DEFAULT (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Jakarta'),
+        recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         UNIQUE (log_week_start, v_id)
     );
     SQL;
@@ -71,7 +71,7 @@ SQL;
         log_month CHAR(7) NOT NULL,
         v_id CHAR(36) NOT NULL,
         total_revenue DECIMAL(16,2) NOT NULL,
-        recorded_at TIMESTAMP DEFAULT (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Jakarta'),
+        recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         UNIQUE (log_month, v_id)
     );
     SQL;
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS user_points_logs (
     user_id CHAR(36) NOT NULL,
     change_amount INT NOT NULL,
     event VARCHAR(60) NOT NULL,
-    changed_at TIMESTAMP DEFAULT (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Jakarta'),
+    changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     related_t_id CHAR(36) NOT NULL
 );
 SQL;
@@ -98,7 +98,7 @@ SQL;
         id INT AUTO_INCREMENT PRIMARY KEY,
         vendor_id CHAR(36) NOT NULL,
         amount DECIMAL(14,2) NOT NULL,
-        recorded_at TIMESTAMP DEFAULT (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Jakarta'),
+        recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         UNIQUE (vendor_id)
     );
     SQL;
